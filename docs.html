@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Documentation — Mockup</title>
+<meta name="description" content="Mode d’emploi de Mockup : photo, profondeur par IA locale, logo, perspective, déformation, cylindre, 13 matières, fusion, masque, export PNG et projet .json.">
+<meta name="theme-color" content="#111111">
+<meta name="author" content="Binks Design">
+<meta property="og:title" content="Documentation — Mockup">
+<meta property="og:description" content="Mode d’emploi de Mockup : photo, profondeur par IA locale, logo, perspective, déformation, cylindre, 13 matières, fusion, masque, export PNG et projet .json.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cg transform='translate(4 4)' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12' stroke='%23f2f2f0'/%3E%3Cpath d='M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z' fill='%23ff5500' stroke='%23ff5500'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="alternate" type="text/markdown" href="AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
+<link rel="help" href="agent/" title="Agents IA">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="stylesheet" href="assets/site.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
+<script src="assets/site.js" defer></script>
+</head>
+<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’application est app.html ; elle n’a pas d’API JavaScript publique : pilotage par l’interface (ids stables listés dans AGENTS.md). Aucune clé API. -->
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="AGENTS.md">AGENTS.md</a> (page HTML : <a href="agent/index.html">agent/</a>). L’application (<a href="app.html">app.html</a>) a besoin de JavaScript et de WebGL2.</p></noscript>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Mockup — accueil"><span class="mk"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12" stroke="#f2f2f0"/><path d="M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z" fill="#ff5500" stroke="#ff5500"/></svg></span><b>Mockup</b></a>
+  <a class="sig" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">by binks design</a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="index.html">Accueil</a>
+    <a href="docs.html" aria-current="page">Documentation</a>
+    <a href="agent/index.html">Agents IA</a>
+    <a class="cta" href="app.html">Ouvrir l’app</a>
+  </nav>
+</header>
+<div class="sheet"><main id="contenu">
+  <div class="doc-hero">
+    <div class="plane" aria-hidden="true"></div>
+    <div class="in-w">
+      <p class="kicker"><i aria-hidden="true"></i>Documentation · Mockup by binks design</p>
+      <h1 class="doc-h1"><span class="mask"><span>Mode</span></span><span class="mask"><span style="--i:1">d’<em>emploi</em></span></span></h1>
+      <p class="lead">Tout ce qu’il faut savoir pour poser ton logo sur une vraie photo, le régler jusqu’à ce qu’il ait l’air imprimé, brodé ou gravé, puis l’exporter pour ton client.</p>
+      <div class="meta">
+        <a class="tag" href="app.html">Ouvrir l’app</a>
+        <a class="tag" href="#raccourcis">Raccourcis clavier</a>
+        <a class="tag" href="agent/index.html">Agents IA</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="in-w doc-grid">
+    <details class="toc" open>
+      <summary><span>Sommaire</span><span class="cur"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <nav class="toc-body" aria-label="Sommaire">
+        <span class="toc-h">Sommaire</span>
+        <ol>
+          <li><a href="#demarrer"><span class="n">01</span><span>Démarrer</span></a></li>
+          <li><a href="#photo"><span class="n">02</span><span>Importer la photo</span></a></li>
+          <li><a href="#profondeur"><span class="n">03</span><span>La profondeur</span></a></li>
+          <li><a href="#logo"><span class="n">04</span><span>Ajouter un logo</span></a></li>
+          <li><a href="#placer"><span class="n">05</span><span>Placer : déplacer, perspective, déformer</span></a></li>
+          <li><a href="#cylindre"><span class="n">06</span><span>Forme Cylindre</span></a></li>
+          <li><a href="#matieres"><span class="n">07</span><span>Les 13 matières</span></a></li>
+          <li><a href="#rendu"><span class="n">08</span><span>Le rendu</span></a></li>
+          <li><a href="#fusion"><span class="n">09</span><span>La fusion</span></a></li>
+          <li><a href="#masque"><span class="n">10</span><span>Le masque</span></a></li>
+          <li><a href="#vue"><span class="n">11</span><span>Comparer et naviguer</span></a></li>
+          <li><a href="#exporter"><span class="n">12</span><span>Exporter</span></a></li>
+          <li><a href="#projet"><span class="n">13</span><span>Enregistrer et rouvrir un projet</span></a></li>
+          <li><a href="#mobile"><span class="n">14</span><span>Sur téléphone et tablette</span></a></li>
+          <li><a href="#raccourcis"><span class="n">15</span><span>Raccourcis clavier</span></a></li>
+          <li><a href="#faq"><span class="n">16</span><span>FAQ et limites</span></a></li>
+          <li><a href="#agents"><span class="n">17</span><span>Agents IA</span></a></li>
+        </ol>
+      </nav>
+    </details>
+
+    <article class="prose">
+
+      <section id="demarrer">
+        <h2><span class="n">01</span><span>Démarrer</span></h2>
+        <p>L’application est une seule page, <a href="app.html">app.html</a>. Rien à installer, aucun compte : ouvre la page, dépose ta photo, puis ton logo, règle, exporte.</p>
+        <ul>
+          <li>Il faut un navigateur récent qui gère <strong>WebGL2</strong>. Sinon l’app l’annonce : « Ce navigateur ne prend pas en charge WebGL2 ».</li>
+          <li>La première fois, il faut une connexion : polices et icônes de l’interface, la bibliothèque Transformers.js et les modèles d’IA sont chargés depuis Internet (jsDelivr, Hugging Face, Google Fonts, Fontshare). Ta photo, elle, n’est jamais envoyée.</li>
+          <li>La colonne de gauche suit tes trois étapes : <strong>1 Photo</strong>, <strong>2 Profondeur</strong>, <strong>3 Logo</strong>, puis la liste des <strong>Calques</strong>.</li>
+        </ul>
+        <div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Pour découvrir l’outil sans tes fichiers, clique sur <strong>Démo t-shirt</strong> ou <strong>Démo bouteille</strong> sur l’écran d’accueil de l’app : une photo Pexels et le logo de la marque fictive AVORA sont déjà posés.</p></div>
+      </section>
+
+      <section id="photo">
+        <h2><span class="n">02</span><span>Importer la photo</span></h2>
+        <p>Glisse ta photo dans la zone « Dépose ta photo ici » ou clique sur <strong>Choisir une photo</strong>. Formats : <strong>JPG, PNG, WEBP</strong>. N’importe quelle surface convient : t-shirt, bouteille, canette, boîte, vitre…</p>
+        <ul>
+          <li>Pour remplacer la photo, clique sur l’étape <strong>1 Photo</strong> dans la colonne de gauche. Attention : changer de photo retire les logos posés et vide l’historique.</li>
+          <li>Les calculs (profondeur, aperçu) se font sur une version de travail de 2048 px maximum sur le grand côté ; l’export, lui, repart de ta photo en pleine résolution.</li>
+          <li>Tu peux aussi déposer la photo et le logo en même temps : le premier fichier devient la photo, les suivants des logos, posés là où tu lâches.</li>
+        </ul>
+      </section>
+
+      <section id="profondeur">
+        <h2><span class="n">03</span><span>La profondeur</span></h2>
+        <p>Dès que la photo est chargée, l’app calcule une <strong>carte de profondeur</strong> avec <strong>Depth Anything V2 Small</strong>, exécuté dans ton navigateur par Transformers.js, en WebGPU si ta carte graphique le permet, sinon sur le processeur. Le modèle est téléchargé une seule fois, puis gardé dans le cache du navigateur (sur un serveur http ou https ; pas en ouvrant le fichier en local).</p>
+        <p>Clair = proche, foncé = loin. La carte sert à courber le logo dans les plis et à le masquer derrière ce qui passe devant. Pour la voir : bouton <strong>Profondeur</strong> en haut, ou clic sur l’étape <strong>2 Profondeur</strong>.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Onglet Profondeur</th><th>Ce que ça fait</th></tr></thead>
+          <tbody>
+            <tr><td>Lissage</td><td>Adoucit la carte en suivant les contours de la photo</td></tr>
+            <tr><td>Intensité du relief</td><td>Plus ou moins de déformation du logo dans les plis</td></tr>
+            <tr><td>Afficher la carte</td><td>Bascule entre le rendu et la carte</td></tr>
+            <tr><td>Recalculer avec l’IA</td><td>Relance Depth Anything V2</td></tr>
+            <tr><td>Estimation rapide (sans IA)</td><td>Carte approchée tirée de la luminosité de la photo, instantanée</td></tr>
+            <tr><td>Importer une carte</td><td>Ta propre carte (image en niveaux de gris, clair = proche)</td></tr>
+            <tr><td>Exporter la carte</td><td>PNG en niveaux de gris, à la taille de la photo</td></tr>
+          </tbody>
+        </table></div>
+        <div class="note warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Si le modèle ne peut pas se charger (hors ligne, réseau filtré), l’app passe toute seule à l’<strong>estimation rapide</strong> et l’indique : « IA indisponible · estimation rapide ». Tu peux continuer, ou importer une carte faite ailleurs.</p></div>
+      </section>
+
+      <section id="logo">
+        <h2><span class="n">04</span><span>Ajouter un logo</span></h2>
+        <p>Clique sur <strong>3 Logo</strong>, sur le <strong>+</strong> de Calques ou sur <strong>Ajouter un logo</strong>, ou glisse le fichier sur la photo. Formats : <strong>PNG, SVG, WEBP</strong> (fond transparent conseillé). Tu peux en ajouter plusieurs à la fois.</p>
+        <ul>
+          <li>Chaque logo est un <strong>calque</strong> : clic pour le sélectionner, œil pour le masquer, corbeille pour le supprimer. Le nouveau logo reprend la matière du précédent (Tissu pour le premier).</li>
+          <li>Un SVG est converti en image nette à l’import (jusqu’à 4096 px sur le grand côté, 2048 px sur téléphone et tablette). L’app ne modifie pas son dessin.</li>
+          <li>Il faut d’abord une photo : sans elle, l’app affiche « Importe d’abord une photo ».</li>
+        </ul>
+      </section>
+
+      <section id="placer">
+        <h2><span class="n">05</span><span>Placer : déplacer, perspective, déformer</span></h2>
+        <div class="tbl"><table>
+          <thead><tr><th>Outil</th><th>Touche</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td>Déplacer</td><td><code>V</code></td><td>Glisser le logo, poignées de coin et de bord pour la taille, poignée ronde pour pivoter (<code>Maj</code> : par pas de 15°). Flèches : 1 px, <code>Maj</code> + flèches : 10 px.</td></tr>
+            <tr><td>Perspective</td><td><code>P</code></td><td>Glisse les 4 coins pour caler le logo sur un plan vu de biais.</td></tr>
+            <tr><td>Déformer</td><td><code>D</code></td><td>Une grille de 4 × 4 points pour courber le logo à la main.</td></tr>
+            <tr><td>Masque</td><td><code>M</code></td><td>Peindre où le logo passe derrière (voir § 10).</td></tr>
+          </tbody>
+        </table></div>
+        <p>Dans l’onglet Matière, rubrique <strong>Surface</strong> : <strong>Épouser la surface</strong> incline le logo selon le plan détecté sous lui dans la carte de profondeur ; <strong>Réinitialiser la déformation</strong> remet un rectangle droit, à la même taille et au même angle.</p>
+      </section>
+
+      <section id="cylindre">
+        <h2><span class="n">06</span><span>Forme Cylindre</span></h2>
+        <p>Pour une bouteille, une canette, une tasse : dans <strong>Forme</strong>, choisis <strong>Cylindre</strong> au lieu de <strong>Libre</strong>. Le logo s’enroule autour de l’objet, avec le raccourcissement sur les côtés.</p>
+        <ul>
+          <li><strong>Détecter l’objet</strong> : clique ensuite sur l’objet, le cadre se cale tout seul (sélection d’objet par IA, voir § 10).</li>
+          <li>En cylindre, l’outil Perspective devient <strong>Forme</strong> : cale les coins sur les bords de l’objet, les poignées rondes règlent la courbure, <code>Alt</code> pour un réglage symétrique.</li>
+          <li><strong>Visible au dos, à travers le verre</strong> : le logo apparaît aussi, légèrement flou, sur l’arrière d’un objet transparent.</li>
+          <li>Les matières Verre, Canette et Céramique sont pensées pour cette forme : si tu les choisis en forme Libre, l’app te le rappelle.</li>
+        </ul>
+      </section>
+
+      <section id="matieres">
+        <h2><span class="n">07</span><span>Les 13 matières</span></h2>
+        <p>Une matière est un jeu de réglages de départ. Change-la à tout moment : tes choix de recoloration, de flou et d’options de fusion sont gardés.</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Matière</th><th>Ce qu’elle met en avant</th></tr></thead>
+          <tbody>
+            <tr><td>Tissu</td><td>Déformation dans les plis, ombres, texture</td></tr>
+            <tr><td>Carton</td><td>Texture marquée, peu de brillance</td></tr>
+            <tr><td>Vitre</td><td>Reflets et givrage, opacité réduite</td></tr>
+            <tr><td>Métal</td><td>Forte brillance, relief gravé, couleur de la surface</td></tr>
+            <tr><td>Papier</td><td>Texture fine, très peu de brillance</td></tr>
+            <tr><td>Plastique</td><td>Brillance maximale, peu de texture</td></tr>
+            <tr><td>Broderie</td><td>Fils de broderie, relief embossé</td></tr>
+            <tr><td>Verre</td><td>Transparence du verre (forme Cylindre)</td></tr>
+            <tr><td>Canette</td><td>Métal très brillant (forme Cylindre)</td></tr>
+            <tr><td>Céramique</td><td>Émail brillant (forme Cylindre)</td></tr>
+            <tr><td>Cuir</td><td>Gravure dans la matière, relief gravé, mode Produit</td></tr>
+            <tr><td>Bois gravé</td><td>Gravure poussée, mode Produit</td></tr>
+            <tr><td>Néon</td><td>Lueur autour du logo</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="rendu">
+        <h2><span class="n">08</span><span>Le rendu</span></h2>
+        <p>Cinq curseurs principaux : <strong>Déformation</strong>, <strong>Ombres et plis</strong>, <strong>Brillance</strong>, <strong>Texture</strong>, <strong>Flou</strong>. Le flou à 0 laisse le logo parfaitement net.</p>
+        <p><strong>Plus de réglages</strong> ouvre les autres : Douceur des bords, Diffusion de l’encre, Reflets, Givrage, Relief du logo (de Gravé à Embossé), Fils de broderie, Couleur de la surface, Gravure dans la matière, Transparence du verre, Lueur.</p>
+        <div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p><strong>Double-clic sur un curseur</strong> : il revient à la valeur de la matière choisie.</p></div>
+      </section>
+
+      <section id="fusion">
+        <h2><span class="n">09</span><span>La fusion</span></h2>
+        <ul>
+          <li><strong>Opacité</strong> du logo.</li>
+          <li>Mode : <strong>Normal</strong>, <strong>Produit</strong> ou <strong>Incrustation</strong>.</li>
+          <li><strong>Recolorer le logo</strong> : une seule couleur pour tout le logo, au sélecteur ou parmi cinq teintes (#FFFFFF, #1D1D1B, #FF5500, #C8A24A, #2F4BD8). À n’utiliser que si la marque le prévoit.</li>
+          <li><strong>Options de fusion</strong> (repliées par défaut) : <strong>Comparaison sur</strong> Gris, Rouge, Vert ou Bleu, puis deux barres, <strong>Calque actif</strong> et <strong>Calque du dessous</strong>, pour faire disparaître le logo dans les tons sombres ou clairs, comme les options de fusion de Photoshop. <code>Alt</code> + glisser ou double-clic sur une poignée pour la scinder et adoucir la transition ; l’icône de flèche ronde remet tout à zéro.</li>
+        </ul>
+      </section>
+
+      <section id="masque">
+        <h2><span class="n">10</span><span>Le masque</span></h2>
+        <p>Outil <strong>Masque</strong> (<code>M</code>) : tout ce qui est devant le logo (une main, un pli, un objet) doit le cacher.</p>
+        <ul>
+          <li><strong>Pinceau</strong> : <strong>Effacer</strong> cache le logo, <strong>Restaurer</strong> le fait revenir (<code>Alt</code> inverse le temps du coup de pinceau). <strong>Taille du pinceau</strong> (<code>[</code> et <code>]</code>) et <strong>Dureté</strong>.</li>
+          <li><strong>Sélectionner un objet</strong> (<code>O</code>) : un clic sur un objet le détoure par IA (SlimSAM, téléchargé une fois). <strong>Logo sur l’objet</strong> limite le logo à l’objet ; <strong>Objet devant</strong> fait passer l’objet devant le logo. L’app choisit d’elle-même, tu peux changer. <code>Alt</code>-clic ou <strong>Retirer</strong> pour enlever une zone ; <code>Entrée</code> pour terminer.</li>
+          <li><strong>Masque automatique</strong> : cache le logo là où la carte de profondeur montre quelque chose devant lui ; règle la <strong>Sensibilité</strong>.</li>
+          <li><strong>Réinitialiser le masque</strong> pour repartir de zéro.</li>
+        </ul>
+      </section>
+
+      <section id="vue">
+        <h2><span class="n">11</span><span>Comparer et naviguer</span></h2>
+        <ul>
+          <li><strong>Avant / après</strong> : maintiens <code>C</code> ou le bouton de comparaison pour voir la photo sans logo.</li>
+          <li><strong>Zoom</strong> : molette sur la photo. <strong>Se déplacer</strong> : <code>Espace</code> + glisser. <strong>Ajuster à l’écran</strong> : <code>0</code>.</li>
+          <li><strong>Annuler / Rétablir</strong> : boutons en haut, <code>Ctrl</code>/<code>⌘</code> + <code>Z</code> et <code>Ctrl</code>/<code>⌘</code> + <code>Maj</code> + <code>Z</code> (ou <code>Ctrl</code> + <code>Y</code>).</li>
+        </ul>
+      </section>
+
+      <section id="exporter">
+        <h2><span class="n">12</span><span>Exporter</span></h2>
+        <p>Bouton <strong>Exporter</strong> en haut à droite (actif dès qu’une photo est chargée) :</p>
+        <div class="tbl"><table>
+          <thead><tr><th>Choix</th><th>Fichier</th></tr></thead>
+          <tbody>
+            <tr><td>PNG — pleine résolution</td><td><code>&lt;photo&gt;-mockup.png</code></td></tr>
+            <tr><td>JPEG — pleine résolution, plus léger</td><td><code>&lt;photo&gt;-mockup.jpg</code></td></tr>
+            <tr><td>Carte de profondeur — PNG en niveaux de gris</td><td><code>&lt;photo&gt;-profondeur.png</code></td></tr>
+            <tr><td>Enregistrer le projet — .json avec les images</td><td><code>&lt;photo&gt;.mockup.json</code></td></tr>
+          </tbody>
+        </table></div>
+        <p>Raccourci : <code>Ctrl</code>/<code>⌘</code> + <code>E</code> exporte directement en PNG. La pleine résolution est celle de ta photo, dans la limite de la carte graphique (4096 px sur le grand côté sur téléphone et tablette). Si l’image est trop grande pour le navigateur, l’app l’indique.</p>
+      </section>
+
+      <section id="projet">
+        <h2><span class="n">13</span><span>Enregistrer et rouvrir un projet</span></h2>
+        <p><strong>Enregistrer le projet</strong> (<code>Ctrl</code>/<code>⌘</code> + <code>S</code>) télécharge un fichier <code>.mockup.json</code> qui contient la photo, la carte de profondeur, chaque logo avec sa position, sa déformation, sa matière, ses réglages et son masque.</p>
+        <p>Pour le reprendre : <strong>Exporter → Ouvrir un projet</strong>, ou glisse le .json sur la page.</p>
+        <div class="note warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>L’app ne sauvegarde <strong>pas</strong> ton travail toute seule : un rechargement de la page repart de zéro. Enregistre le projet avant de fermer l’onglet.</p></div>
+      </section>
+
+      <section id="mobile">
+        <h2><span class="n">14</span><span>Sur téléphone et tablette</span></h2>
+        <ul>
+          <li>Barre d’onglets en bas : <strong>Photo</strong>, <strong>Logos</strong>, <strong>Matière</strong>, <strong>Fusion</strong>, <strong>Masque</strong> ; chaque panneau s’ouvre en feuille que tu tires vers le haut ou le bas.</li>
+          <li>Au doigt : glisse le logo, pince-le à deux doigts pour la taille et la rotation, pince à côté pour zoomer. Un appui long sur le logo ouvre ses actions (matière, forme, épouser la surface, masquer, supprimer).</li>
+          <li>Le bouton de comparaison affiche un curseur avant / après à faire glisser.</li>
+          <li>Avant le premier téléchargement du modèle de profondeur (environ 100 Mo), l’app te demande si tu veux le faire maintenant, sauf en Wi-Fi. « Plus tard » utilise l’estimation rapide.</li>
+          <li>L’export passe par la feuille de partage du téléphone quand elle sait partager un fichier : <strong>Enregistrer ou partager</strong> (Photos, Fichiers, Messages…), ou <strong>Télécharger</strong>.</li>
+          <li>Le menu « … » donne Enregistrer / Ouvrir un projet, Remplacer la photo, Voir la carte de profondeur, Recentrer.</li>
+        </ul>
+      </section>
+
+      <section id="raccourcis">
+        <h2><span class="n">15</span><span>Raccourcis clavier</span></h2>
+        <div class="tbl"><table>
+          <thead><tr><th>Touche</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>V</code> · <code>P</code> · <code>D</code> · <code>M</code></td><td>Déplacer · Perspective · Déformer · Masque</td></tr>
+            <tr><td><code>O</code></td><td>Sélectionner un objet (ou terminer la sélection)</td></tr>
+            <tr><td><code>C</code> (maintenir)</td><td>Avant / après</td></tr>
+            <tr><td><code>Espace</code> + glisser</td><td>Se déplacer dans la photo</td></tr>
+            <tr><td><code>0</code></td><td>Ajuster à l’écran</td></tr>
+            <tr><td><code>[</code> · <code>]</code></td><td>Taille du pinceau</td></tr>
+            <tr><td>Flèches (+ <code>Maj</code>)</td><td>Déplacer le logo de 1 px (10 px)</td></tr>
+            <tr><td><code>Suppr</code> · <code>Retour arrière</code></td><td>Supprimer le logo sélectionné</td></tr>
+            <tr><td><code>Ctrl</code>/<code>⌘</code> + <code>Z</code></td><td>Annuler</td></tr>
+            <tr><td><code>Ctrl</code>/<code>⌘</code> + <code>Maj</code> + <code>Z</code>, <code>Ctrl</code> + <code>Y</code></td><td>Rétablir</td></tr>
+            <tr><td><code>Ctrl</code>/<code>⌘</code> + <code>S</code></td><td>Enregistrer le projet</td></tr>
+            <tr><td><code>Ctrl</code>/<code>⌘</code> + <code>E</code></td><td>Exporter en PNG</td></tr>
+            <tr><td><code>Entrée</code> · <code>Échap</code></td><td>Terminer la sélection d’objet</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section id="faq">
+        <h2><span class="n">16</span><span>FAQ et limites</span></h2>
+        <h3>Ma photo est-elle envoyée quelque part ?</h3>
+        <p>Non. L’IA tourne dans ton navigateur : seuls les modèles sont téléchargés (depuis Hugging Face), ta photo et ton logo ne sortent pas de ta machine.</p>
+        <h3>« IA indisponible · estimation rapide »</h3>
+        <p>Le modèle n’a pas pu se charger (pas de connexion, réseau filtré, page ouverte en <code>file://</code> sans cache). L’estimation rapide marche bien sur les surfaces simples ; sinon réessaie avec <strong>Recalculer avec l’IA</strong> une fois en ligne, ou importe une carte.</p>
+        <h3>Mon travail a disparu après un rechargement</h3>
+        <p>C’est normal : l’app ne garde pas le projet en mémoire. Enregistre-le en .json (<code>Ctrl</code>/<code>⌘</code> + <code>S</code>) et rouvre-le.</p>
+        <h3>« Ce fichier n’est pas un projet valide »</h3>
+        <p>Seuls les fichiers <code>.mockup.json</code> créés par Mockup s’ouvrent comme projet.</p>
+        <h3>« Ce logo n’a pas pu être lu »</h3>
+        <p>Vérifie le format (PNG, SVG, WEBP). Pour un SVG, exporte-le à nouveau depuis ton logiciel, avec un <code>viewBox</code>.</p>
+        <h3>L’export échoue sur une très grande photo</h3>
+        <p>La carte graphique a une taille maximale. Réduis la photo, ou exporte depuis un ordinateur plutôt qu’un téléphone.</p>
+      </section>
+
+      <section id="agents">
+        <h2><span class="n">17</span><span>Agents IA</span></h2>
+        <p>Un agent (Claude Code, Codex…) peut produire le mockup à ta place en pilotant l’interface : l’app n’a pas d’API dédiée, mais ses champs et boutons ont des identifiants stables. Mode d’emploi complet : page <a href="agent/index.html">Agents IA</a> et <a href="AGENTS.md">AGENTS.md</a> (français puis anglais).</p>
+      </section>
+
+    </article>
+  </div>
+</main>
+<footer class="foot doc-foot">
+  <div class="in-w foot-in">
+    <span class="foot-l"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12" stroke="#111"/><path d="M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z" fill="#ff5500" stroke="#ff5500"/></svg>Mockup · by binks design</span>
+    <ul class="foot-r">
+      <li><a href="docs.html">Documentation</a></li>
+      <li><a href="agent/index.html">Agents IA</a></li>
+      <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
+      <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
+    </ul>
+    <small>Gratuit, sans compte : ta photo et ton logo restent dans ton navigateur. Polices de ces pages : Clash Display (<a href="assets/fonts/ClashDisplay-FFL.txt">licence FFL</a>) et Instrument Sans (<a href="assets/fonts/InstrumentSans-OFL.txt">licence OFL</a>). Images de démonstration : photos Pexels intégrées à l’app, marque fictive AVORA.</small>
+  </div>
+</footer>
+</div>
+</body>
+</html>

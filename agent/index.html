@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agents IA — Mockup</title>
+<meta name="description" content="Mode d’emploi pour agents IA : piloter Mockup par son interface (ids stables), sans clé API ni API dédiée (FR / EN). Ta photo reste dans le navigateur.">
+<meta name="theme-color" content="#111111">
+<meta name="author" content="Binks Design">
+<meta property="og:title" content="Agents IA — Mockup">
+<meta property="og:description" content="Mode d’emploi pour agents IA : piloter Mockup par son interface (ids stables), sans clé API ni API dédiée (FR / EN). Ta photo reste dans le navigateur.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cg transform='translate(4 4)' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12' stroke='%23f2f2f0'/%3E%3Cpath d='M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z' fill='%23ff5500' stroke='%23ff5500'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="alternate" type="text/markdown" href="../AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
+<link rel="help" href="../agent/" title="Agents IA">
+<link rel="alternate" type="text/plain" href="../llms.txt" title="llms.txt">
+<link rel="stylesheet" href="../assets/site.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
+<script src="../assets/site.js" defer></script>
+</head>
+<!-- Agents IA / AI agents : lisez ../AGENTS.md (Markdown, français puis anglais) ou ../agent/index.html avant d’agir. L’application est ../app.html ; elle n’a pas d’API JavaScript publique : pilotage par l’interface (ids stables listés dans AGENTS.md). Aucune clé API. -->
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="../AGENTS.md">AGENTS.md</a> (page HTML : <a href="../agent/index.html">agent/</a>). L’application (<a href="../app.html">app.html</a>) a besoin de JavaScript et de WebGL2.</p></noscript>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Mockup — accueil"><span class="mk"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12" stroke="#f2f2f0"/><path d="M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z" fill="#ff5500" stroke="#ff5500"/></svg></span><b>Mockup</b></a>
+  <a class="sig" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">by binks design</a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="../index.html">Accueil</a>
+    <a href="../docs.html">Documentation</a>
+    <a href="../agent/index.html" aria-current="page">Agents IA</a>
+    <a class="cta" href="../app.html">Ouvrir l’app</a>
+  </nav>
+</header>
+<div class="sheet"><main id="contenu">
+  <div class="doc-hero">
+    <div class="plane" aria-hidden="true"></div>
+    <div class="in-w">
+      <p class="kicker"><i aria-hidden="true"></i>Pour Claude Code, Codex et tout agent qui pilote un navigateur</p>
+      <h1 class="doc-h1"><span class="mask"><span>Mode d’emploi</span></span><span class="mask"><span style="--i:1">pour <em>agents IA</em></span></span></h1>
+      <p class="lead">Comment piloter Mockup par son interface : importer la photo et le logo fournis, attendre la profondeur, régler, exporter et vérifier. Pas d’API dédiée, pas de clé. Même contenu en Markdown : <a class="lnk" href="../AGENTS.md">AGENTS.md</a>.</p>
+      <div class="meta lang-switch">
+        <a class="tag" href="#fr-intro">Français</a>
+        <a class="tag" href="#en-intro" hreflang="en">English</a>
+        <a class="tag" href="../AGENTS.md" type="text/markdown">AGENTS.md</a>
+        <a class="tag" href="../llms.txt" type="text/plain">llms.txt</a>
+        <a class="tag" href="../docs.html">Documentation (humains)</a>
+      </div>
+    </div>
+  </div>
+  <div class="in-w doc-grid">
+    <details class="toc" open>
+      <summary><span>Sommaire</span><span class="cur"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <nav class="toc-body" aria-label="Sommaire"><span class="toc-h" lang="fr">Français</span><ol><li><a href="#fr-regle-fondamentale"><span class="n">01</span><span>Règle fondamentale</span></a></li><li><a href="#fr-demarrer"><span class="n">02</span><span>Démarrer</span></a></li><li><a href="#fr-pas-dapi-publique-ce-qui-existe"><span class="n">03</span><span>Pas d’API publique : ce qui existe</span></a></li><li><a href="#fr-reperes-stables"><span class="n">04</span><span>Repères stables</span></a></li><li><a href="#fr-parcours-pas-a-pas"><span class="n">05</span><span>Parcours pas à pas</span></a></li><li><a href="#fr-exports-et-fichiers"><span class="n">06</span><span>Exports et fichiers</span></a></li><li><a href="#fr-etat-persistant"><span class="n">07</span><span>État persistant</span></a></li><li><a href="#fr-profondeur-et-ia"><span class="n">08</span><span>Profondeur et IA</span></a></li><li><a href="#fr-verifications-avant-de-rendre-le-travail"><span class="n">09</span><span>Vérifications avant de rendre le travail</span></a></li><li><a href="#fr-limites-et-erreurs"><span class="n">10</span><span>Limites et erreurs</span></a></li><li><a href="#fr-logique-a-suivre-pour-chaque-tache"><span class="n">11</span><span>Logique à suivre pour chaque tâche</span></a></li></ol><div style="height:18px"></div><span class="toc-h" lang="en">English</span><ol><li><a href="#en-golden-rule"><span class="n">01</span><span>Golden rule</span></a></li><li><a href="#en-getting-started"><span class="n">02</span><span>Getting started</span></a></li><li><a href="#en-no-public-api-what-exists"><span class="n">03</span><span>No public API: what exists</span></a></li><li><a href="#en-stable-hooks"><span class="n">04</span><span>Stable hooks</span></a></li><li><a href="#en-step-by-step"><span class="n">05</span><span>Step by step</span></a></li><li><a href="#en-exports-and-files"><span class="n">06</span><span>Exports and files</span></a></li><li><a href="#en-persistent-state"><span class="n">07</span><span>Persistent state</span></a></li><li><a href="#en-depth-and-ai"><span class="n">08</span><span>Depth and AI</span></a></li><li><a href="#en-checks-before-handing-back"><span class="n">09</span><span>Checks before handing back</span></a></li><li><a href="#en-limits-and-errors"><span class="n">10</span><span>Limits and errors</span></a></li><li><a href="#en-logic-for-every-task"><span class="n">11</span><span>Logic for every task</span></a></li></ol></nav>
+    </details>
+    <article class="prose">
+<section id="fr-intro" lang="fr"><p>Ce document s’adresse aux agents IA (Claude Code, Codex, ou tout agent qui pilote un navigateur via Playwright / CDP). Il explique comment utiliser <strong>Mockup</strong> (<code>app.html</code>), le générateur de mockups réalistes de Binks Design : importer une photo, laisser l’app calculer la profondeur, poser un logo, choisir une matière, régler, puis exporter un PNG, un JPEG, la carte de profondeur ou le projet <code>.json</code>.</p>
+<p>Il existe en deux endroits, toujours identiques : <code>AGENTS.md</code> (Markdown, français puis anglais) et la page <code>agent/index.html</code>. Résumé court : <code>llms.txt</code>.</p>
+<p>Points d’entrée découvrables sans JavaScript : <code>index.html</code> et <code>docs.html</code> déclarent <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> et <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, et contiennent un commentaire HTML et un <code>&lt;noscript&gt;</code> qui renvoient ici. <code>robots.txt</code> autorise tout.</p></section>
+<section id="fr-regle-fondamentale" lang="fr"><h2><span class="n">01</span><span>Règle fondamentale</span></h2>
+<p>Mockup pose sur une photo le logo que l’utilisateur fournit. Ce n’est <strong>pas</strong> un générateur de logos ni de photos.</p>
+<ul>
+<li><strong>N’invente jamais</strong> un logo, un symbole, une couleur de marque, une police ou un texte de marque. Le fichier logo (PNG, SVG, WEBP) et la photo fournis par l’utilisateur <strong>font foi</strong>.</li>
+<li>Ne redessine pas un SVG fourni, ne le vectorise pas, ne modifie pas sa géométrie ni ses couleurs. Ne remplace pas un fichier manquant par un fichier « approchant » : demande-le.</li>
+<li><strong>Recolorer le logo</strong> change la couleur de tout le logo : ne l’active que si l’utilisateur le demande ou si sa charte le prévoit.</li>
+<li>Les démos (t-shirt, bouteille, logo de la marque fictive <strong>AVORA</strong>) servent à tester. Ne livre jamais un mockup avec le logo AVORA à la place du logo du client.</li>
+<li><strong>Aucune clé API.</strong> L’app n’en utilise aucune et n’en demande aucune : n’en demande jamais à l’utilisateur.</li>
+<li><strong>Ta photo reste locale.</strong> Le calcul de profondeur (Depth Anything V2 Small) et la sélection d’objet (SlimSAM) tournent dans le navigateur avec Transformers.js. Seuls la bibliothèque et les modèles publics sont téléchargés (jsDelivr, Hugging Face). Aucune image n’est envoyée à un serveur.</li>
+</ul>
+<p>Après chaque action, relis l’état (textes de statut, fichier téléchargé, capture). <strong>Un clic n’est pas une preuve de réussite.</strong></p></section>
+<section id="fr-demarrer" lang="fr"><h2><span class="n">02</span><span>Démarrer</span></h2>
+<h3 id="fr-demarrer-servir-et-ouvrir-lapp">Servir et ouvrir l’app</h3>
+<p>Le dépôt est un site statique : <code>index.html</code> (accueil), <code>app.html</code> (l’application, un seul fichier), <code>docs.html</code> (documentation), <code>agent/index.html</code> (cette page), <code>AGENTS.md</code>, <code>llms.txt</code>, <code>robots.txt</code>, <code>assets/</code> (pages uniquement).</p>
+<pre><code class="language-bash">python3 -m http.server 8000
+# puis ouvrir http://127.0.0.1:8000/app.html
+</code></pre>
+<ul>
+<li><strong>http:// recommandé</strong> : le cache des modèles (Cache Storage) et le Web Worker de profondeur ne fonctionnent qu’en http(s). En <code>file://</code>, l’app marche mais recalcule sans cache.</li>
+<li><strong>WebGL2 obligatoire.</strong> En Chromium headless, lance par exemple avec <code>--use-angle=swiftshader --enable-unsafe-swiftshader</code> pour avoir WebGL2 logiciel. Sans WebGL2, l’app affiche « Ce navigateur ne prend pas en charge WebGL2 » et rien ne marche.</li>
+<li><strong>Internet la première fois</strong> : polices, icônes (Lucide), Transformers.js et modèles. Selon le réseau, huggingface.co peut refuser un navigateur automatisé : l’app passe alors seule à l’<strong>estimation rapide</strong> (voir § 8).</li>
+<li>Prêt quand : <code>document.title === "Mockup · Binks Design"</code> et le bouton <code>#pickPhoto</code> est visible.</li>
+</ul>
+<h3 id="fr-demarrer-deux-facons-de-piloter">Deux façons de piloter</h3>
+<ol>
+<li><strong>Par l’interface</strong> (recommandé) : champs <code>&lt;input type="file"&gt;</code> cachés, boutons et curseurs avec des <code>id</code> et <code>data-*</code> stables (§ 4).</li>
+<li><strong>Lecture de l’état</strong> : l’app expose un objet global interne <code>window.__mockup</code> (§ 3). Il n’est pas documenté comme API publique : utilise-le pour <strong>lire</strong> l’état et attendre, pas pour remplacer l’interface.</li>
+</ol></section>
+<section id="fr-pas-dapi-publique-ce-qui-existe" lang="fr"><h2><span class="n">03</span><span>Pas d’API publique : ce qui existe</span></h2>
+<p>Mockup n’a <strong>pas</strong> d’API JavaScript dédiée aux agents (pas d’équivalent de <code>window.binksyGuide</code>). N’en invente pas et n’en ajoute pas.</p>
+<p>L’app expose toutefois, pour son propre débogage, <code>window.__mockup</code>. C’est un objet <strong>interne, sans garantie de stabilité</strong>. Parties utiles en lecture :</p>
+<pre><code class="language-js">__mockup.S.photo            // null, ou { W, H, name, src } : photo chargée (W×H = pleine résolution)
+__mockup.S.depthSource      // 'none' | 'ai' | 'quick' | 'custom'
+__mockup.S.depthBusy        // true pendant le calcul IA
+__mockup.S.device           // 'webgpu' | 'wasm' | '' : où a tourné l’IA
+__mockup.S.layers           // calques : [{ name, preset, visible, shape: 'plan'|'cyl', corners, ... }]
+__mockup.S.sel              // index du calque sélectionné (-1 si aucun)
+__mockup.S.mode             // 'transform' | 'persp' | 'warp' | 'mask' | 'pick'
+__mockup.S.view2            // { s, ox, oy } : échelle et décalage de la vue (voir § 5)
+Object.keys(__mockup.PRESETS) // ids des 13 matières
+</code></pre>
+<p>Il contient aussi des fonctions internes (<code>loadDemo()</code>, <code>loadDemoBottle()</code>, <code>exportImage('png'|'jpg')</code>, <code>undo()</code>, <code>redo()</code>…). Préfère les boutons correspondants ; si tu les appelles, vérifie le résultat dans l’interface.</p></section>
+<section id="fr-reperes-stables" lang="fr"><h2><span class="n">04</span><span>Repères stables</span></h2>
+<p>Tous ces sélecteurs existent dans <code>app.html</code> (version bureau, fenêtre de plus de 900 px de large).</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Sélecteur</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#fPhoto</code></td>
+<td><code>input[type=file]</code> photo (JPG, PNG, WEBP)</td>
+</tr>
+<tr>
+<td><code>#fLogo</code></td>
+<td><code>input[type=file]</code> logos (PNG, SVG, WEBP), <code>multiple</code></td>
+</tr>
+<tr>
+<td><code>#fDepth</code></td>
+<td><code>input[type=file]</code> carte de profondeur (image)</td>
+</tr>
+<tr>
+<td><code>#fProj</code></td>
+<td><code>input[type=file]</code> projet <code>.json</code></td>
+</tr>
+<tr>
+<td><code>#pickPhoto</code> · <code>#demoBtn</code> · <code>#demoBottle</code></td>
+<td>Écran d’accueil : Choisir une photo · Démo t-shirt · Démo bouteille (visibles seulement sans photo)</td>
+</tr>
+<tr>
+<td><code>#st1</code> · <code>#st2</code> · <code>#st3</code></td>
+<td>Étapes Photo / Profondeur / Logo ; textes d’état <code>#st1s</code>, <code>#st2s</code>, <code>#st3s</code></td>
+</tr>
+<tr>
+<td><code>#addLayer</code> · <code>#addLogo2</code></td>
+<td>Ajouter un logo</td>
+</tr>
+<tr>
+<td><code>#layers .layer[data-i="N"]</code></td>
+<td>Calque N (clic = sélection) ; <code>[data-act="vis"]</code> masquer/afficher, <code>[data-act="del"]</code> supprimer</td>
+</tr>
+<tr>
+<td><code>#modes [data-mode="transform|persp|warp|mask"]</code></td>
+<td>Outils Déplacer / Perspective (Forme en cylindre) / Déformer / Masque</td>
+</tr>
+<tr>
+<td><code>#views [data-view="render|depth"]</code></td>
+<td>Vue Rendu / Profondeur</td>
+</tr>
+<tr>
+<td><code>#undo</code> · <code>#redo</code> · <code>#compare</code> · <code>#fit</code></td>
+<td>Annuler · Rétablir · Avant/après (maintenir) · Ajuster à l’écran</td>
+</tr>
+<tr>
+<td><code>#tabs [data-tab="mat|depth"]</code></td>
+<td>Onglets Matière / Profondeur du panneau</td>
+</tr>
+<tr>
+<td><code>#shapeSeg [data-s="plan|cyl"]</code></td>
+<td>Forme Libre / Cylindre</td>
+</tr>
+<tr>
+<td><code>#cylDetect</code> · <code>#backSw</code></td>
+<td>Détecter l’objet · Visible au dos (interrupteur, classe <code>on</code>)</td>
+</tr>
+<tr>
+<td><code>#chips .chip[data-p="&lt;id&gt;"]</code></td>
+<td>Matière (classe <code>on</code> = active)</td>
+</tr>
+<tr>
+<td><code>#coreSliders .sl[data-k="&lt;clé&gt;"] input</code></td>
+<td>Curseurs principaux : <code>disp</code>, <code>shade</code>, <code>spec</code>, <code>tex</code>, <code>flou</code></td>
+</tr>
+<tr>
+<td><code>#moreBtn</code> puis <code>#advSliders .sl[data-k]</code></td>
+<td><code>soft</code>, <code>bleed</code>, <code>refl</code>, <code>frost</code>, <code>relief</code> (−1000 à 1000), <code>stitch</code>, <code>tint</code>, <code>burn</code>, <code>glass</code>, <code>glow</code></td>
+</tr>
+<tr>
+<td><code>#opSlider .sl[data-k="opacity"] input</code></td>
+<td>Opacité</td>
+</tr>
+<tr>
+<td><code>#blendSeg [data-b="0|1|2"]</code></td>
+<td>Normal / Produit / Incrustation</td>
+</tr>
+<tr>
+<td><code>#recolorSw</code> · <code>#ink</code> · <code>#inkSws button[data-c]</code></td>
+<td>Recolorer (interrupteur) · couleur · teintes rapides</td>
+</tr>
+<tr>
+<td><code>#bifFold</code> · <code>#bifCh [data-c="0..3"]</code> · <code>#bifReset</code></td>
+<td>Options de fusion : déplier · Gris/Rouge/Vert/Bleu · réinitialiser</td>
+</tr>
+<tr>
+<td><code>#fitSurf</code> · <code>#resetWarp</code></td>
+<td>Épouser la surface · Réinitialiser la déformation</td>
+</tr>
+<tr>
+<td><code>#pickBtn</code> · <code>#pickKind [data-k="clip|front"]</code> · <code>#pickSign [data-s="1|-1"]</code></td>
+<td>Sélection d’objet · Logo sur l’objet / Objet devant · Ajouter / Retirer</td>
+</tr>
+<tr>
+<td><code>#brushSeg [data-e="1|0"]</code> · <code>#brushSliders .sl[data-k="size|hard"]</code></td>
+<td>Pinceau Effacer / Restaurer · taille, dureté</td>
+</tr>
+<tr>
+<td><code>#autoSw</code> · <code>#autoSlider .sl[data-k="autoSens"]</code> · <code>#clearMask</code></td>
+<td>Masque automatique · sensibilité · réinitialiser le masque</td>
+</tr>
+<tr>
+<td><code>#depthSliders .sl[data-k="smooth|gain"]</code></td>
+<td>Lissage · Intensité du relief</td>
+</tr>
+<tr>
+<td><code>#showDepthSw</code> · <code>#reDepth</code> · <code>#quickDepth</code> · <code>#importDepth</code> · <code>#exportDepth</code></td>
+<td>Onglet Profondeur</td>
+</tr>
+<tr>
+<td><code>#exportBtn</code> puis <code>#exportPop [data-x="png|jpg|depth|save|open"]</code></td>
+<td>Menu Exporter</td>
+</tr>
+<tr>
+<td><code>#toastT</code></td>
+<td>Texte du dernier message (toast)</td>
+</tr>
+<tr>
+<td><code>#ov</code></td>
+<td>Canevas des poignées (souris, glisser)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Ids des matières (<code>data-p</code>) : <code>tissu</code>, <code>carton</code>, <code>vitre</code>, <code>metal</code>, <code>papier</code>, <code>plastique</code>, <code>broderie</code>, <code>verre</code>, <code>canette</code>, <code>ceramique</code>, <code>cuir</code>, <code>bois</code>, <code>neon</code>. <code>verre</code>, <code>canette</code> et <code>ceramique</code> sont pensées pour la forme Cylindre.</p>
+<p>Sous 900 px de large (ou en paysage téléphone), l’app passe en mise en page mobile : barre <code>#mTabs [data-sheet="photo|logos|mat|fus|mask"]</code>, menu <code>#mMore</code>, feuilles <code>#sheet</code>. Pilote plutôt en fenêtre bureau (par exemple 1440 × 900).</p></section>
+<section id="fr-parcours-pas-a-pas" lang="fr"><h2><span class="n">05</span><span>Parcours pas à pas</span></h2>
+<h3 id="fr-parcours-pas-a-pas-exemple-playwright-python">Exemple Playwright (Python)</h3>
+<pre><code class="language-python">from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    b = p.chromium.launch(args=[&quot;--use-angle=swiftshader&quot;, &quot;--enable-unsafe-swiftshader&quot;])
+    page = b.new_page(viewport={&quot;width&quot;: 1440, &quot;height&quot;: 900}, accept_downloads=True)
+    page.goto(&quot;http://127.0.0.1:8000/app.html&quot;)
+    page.wait_for_selector(&quot;#pickPhoto&quot;)
+
+    # 1. Photo fournie par l’utilisateur
+    page.set_input_files(&quot;#fPhoto&quot;, &quot;photo-client.jpg&quot;)
+    # 2. Attendre la profondeur (IA ou estimation rapide)
+    page.wait_for_function(&quot;__mockup.S.photo &amp;&amp; !__mockup.S.depthBusy &amp;&amp; __mockup.S.depthSource !== 'none'&quot;,
+                           timeout=300_000)
+    print(page.inner_text(&quot;#st2s&quot;))   # « Carte IA prête », « Estimation rapide »…
+    # 3. Logo fourni par l’utilisateur (centré, 34 % du petit côté de la photo)
+    page.set_input_files(&quot;#fLogo&quot;, &quot;logo-client.svg&quot;)
+    page.wait_for_function(&quot;__mockup.S.layers.length === 1&quot;)
+    # 4. Matière
+    page.click('#chips [data-p=&quot;tissu&quot;]')
+    # 5. Export PNG pleine résolution
+    page.click(&quot;#exportBtn&quot;)
+    with page.expect_download() as d:
+        page.click('#exportPop [data-x=&quot;png&quot;]')
+    d.value.save_as(&quot;photo-client-mockup.png&quot;)
+    # 6. Projet .json pour reprendre plus tard
+    page.click(&quot;#exportBtn&quot;)
+    with page.expect_download() as d:
+        page.click('#exportPop [data-x=&quot;save&quot;]')
+    d.value.save_as(&quot;photo-client.mockup.json&quot;)
+    b.close()
+</code></pre>
+<h3 id="fr-parcours-pas-a-pas-placer-le-logo">Placer le logo</h3>
+<p>Le logo arrive centré. Pour le placer :</p>
+<ul>
+<li><strong>Clavier</strong> : sélectionne le calque, puis flèches (1 px d’écran) ou <code>Maj</code> + flèches (10 px).</li>
+<li><strong>Souris</strong> : glisse dans le logo pour le déplacer ; poignées carrées des coins et des bords pour la taille ; poignée ronde au-dessus pour pivoter (<code>Maj</code> : par pas de 15°). Pour viser un point de la photo, convertis ses coordonnées (pixels de la photo) en coordonnées du canevas <code>#ov</code> : <code>x = ix * S.view2.s + S.view2.ox</code>, <code>y = iy * S.view2.s + S.view2.oy</code>, puis ajoute la position de <code>#ov</code> (<code>bounding_box()</code>).</li>
+<li><strong>Perspective</strong> (<code>P</code>) : glisse les 4 coins. <strong>Déformer</strong> (<code>D</code>) : grille de 4 × 4 points. <strong>Épouser la surface</strong> (<code>#fitSurf</code>) incline le logo selon la carte de profondeur.</li>
+<li><strong>Cylindre</strong> (bouteille, canette, tasse) : <code>#shapeSeg [data-s="cyl"]</code>, puis <code>#cylDetect</code> et un clic sur l’objet ; le cadre se cale (ou, sans IA, un cadre estimé est proposé).</li>
+</ul>
+<h3 id="fr-parcours-pas-a-pas-regler-un-curseur">Régler un curseur</h3>
+<p>Les curseurs sont des <code>input[type=range]</code> de 0 à 1000 (relief : −1000 à 1000), recréés à chaque mise à jour du panneau : recherche-les juste avant de les modifier.</p>
+<pre><code class="language-js">const set = (sel, v) =&gt; { const i = document.querySelector(sel); i.value = v;
+  i.dispatchEvent(new Event('input', { bubbles: true })); i.dispatchEvent(new Event('change', { bubbles: true })); };
+set('#coreSliders .sl[data-k=&quot;flou&quot;] input', 0);      // logo net
+set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // opacité 95 %
+</code></pre>
+<p><code>input</code> met à jour l’aperçu, <code>change</code> l’inscrit dans l’historique. Double-clic sur un curseur : retour à la valeur de la matière.</p></section>
+<section id="fr-exports-et-fichiers" lang="fr"><h2><span class="n">06</span><span>Exports et fichiers</span></h2>
+<p>Tous les fichiers arrivent comme <strong>téléchargements</strong> du navigateur (attrape-les avec <code>expect_download</code>). <code>&lt;photo&gt;</code> = nom du fichier photo sans extension.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Menu <code>#exportPop</code></th>
+<th>Fichier</th>
+<th>Contenu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[data-x="png"]</code> (ou <code>Ctrl</code>/<code>⌘</code>+<code>E</code>)</td>
+<td><code>&lt;photo&gt;-mockup.png</code></td>
+<td>Rendu à la résolution de la photo (limite : taille de texture max de la carte graphique ; 4096 px sur écran tactile)</td>
+</tr>
+<tr>
+<td><code>[data-x="jpg"]</code></td>
+<td><code>&lt;photo&gt;-mockup.jpg</code></td>
+<td>Même rendu, JPEG qualité 0,95</td>
+</tr>
+<tr>
+<td><code>[data-x="depth"]</code></td>
+<td><code>&lt;photo&gt;-profondeur.png</code></td>
+<td>Carte de profondeur en niveaux de gris, taille de la photo</td>
+</tr>
+<tr>
+<td><code>[data-x="save"]</code> (ou <code>Ctrl</code>/<code>⌘</code>+<code>S</code>)</td>
+<td><code>&lt;photo&gt;.mockup.json</code></td>
+<td>Projet complet</td>
+</tr>
+<tr>
+<td><code>[data-x="open"]</code></td>
+<td>—</td>
+<td>Ouvre <code>#fProj</code> pour charger un projet</td>
+</tr>
+</tbody>
+</table></div>
+<p>Le projet <code>.mockup.json</code> est un JSON <code>{ app: "binks-mockup", version: 2, photo: { src, name }, depth: { source, w, h, data, device }, depthP, layers: [...] }</code> : la photo et les logos y sont intégrés (data URL ou texte SVG), avec pour chaque calque position, maillage, matière, réglages, forme et masque. Ouvre-le avec <code>page.set_input_files("#fProj", "fichier.mockup.json")</code> ou en le déposant sur la page ; toast « Projet ouvert ».</p></section>
+<section id="fr-etat-persistant" lang="fr"><h2><span class="n">07</span><span>État persistant</span></h2>
+<ul>
+<li><strong>Aucune sauvegarde automatique du travail.</strong> Recharger la page efface photo, logos et réglages. Pour garder un travail : enregistre le projet <code>.json</code>.</li>
+<li><code>localStorage</code> (origine de la page) : <code>mockup.bif</code> (<code>"1"</code> / <code>"0"</code> : options de fusion dépliées ou non) et <code>mockup.modelOK</code> (<code>"1"</code> : l’utilisateur a accepté sur mobile de télécharger le modèle). Rien d’autre.</li>
+<li>Cache Storage : <code>transformers-cache</code> (modèles téléchargés par Transformers.js) et <code>mockup-probe</code> (test de disponibilité du cache).</li>
+<li>Utilise un profil de navigateur dédié aux tests si tu ne veux pas laisser ces traces.</li>
+</ul></section>
+<section id="fr-profondeur-et-ia" lang="fr"><h2><span class="n">08</span><span>Profondeur et IA</span></h2>
+<ul>
+<li>Calcul auto à chaque nouvelle photo. Statut dans <code>#st2s</code> : « Chargement du modèle… », « Téléchargement du modèle », « Analyse de la profondeur… », puis « Carte IA prête », « Estimation rapide », « Carte importée » ou « IA indisponible · estimation rapide ».</li>
+<li><code>__mockup.S.depthSource</code> : <code>ai</code> (Depth Anything V2), <code>quick</code> (estimation rapide, sans IA), <code>custom</code> (carte importée). <code>S.device</code> : <code>webgpu</code> ou <code>wasm</code>.</li>
+<li>Le premier calcul IA télécharge le modèle (environ 100 Mo d’après l’app) ; compte plusieurs minutes sur un processeur lent ou un rendu logiciel. Prévois un <code>timeout</code> large.</li>
+<li>Si l’IA échoue, l’app bascule seule sur l’estimation rapide : c’est un résultat utilisable, mais <strong>dis-le</strong> à l’utilisateur. <code>#reDepth</code> relance l’IA ; <code>#importDepth</code> / <code>#fDepth</code> accepte une carte fournie (clair = proche).</li>
+<li>La sélection d’objet (<code>#pickBtn</code>, <code>#cylDetect</code>) charge SlimSAM la première fois ; en cas d’échec : toast « La sélection IA a besoin d’internet la première fois · cadre estimé sans IA ».</li>
+</ul></section>
+<section id="fr-verifications-avant-de-rendre-le-travail" lang="fr"><h2><span class="n">09</span><span>Vérifications avant de rendre le travail</span></h2>
+<ol>
+<li>Le logo utilisé est <strong>exactement</strong> le fichier fourni (pas AVORA, pas une version redessinée).</li>
+<li><code>#st2s</code> indique la source de profondeur ; si c’est l’estimation rapide ou une carte importée, signale-le.</li>
+<li>Le fichier exporté existe, s’ouvre, et a la taille attendue (celle de la photo, sauf limite de la carte graphique).</li>
+<li>Regarde l’export : logo visible, bien placé, pas coupé par un masque involontaire, pas de recoloration non demandée.</li>
+<li>Si l’utilisateur doit reprendre le travail, fournis aussi le <code>.mockup.json</code>.</li>
+<li>Aucune erreur dans la console (les avertissements de chargement du modèle IA mis à part, s’ils ont mené à l’estimation rapide).</li>
+</ol></section>
+<section id="fr-limites-et-erreurs" lang="fr"><h2><span class="n">10</span><span>Limites et erreurs</span></h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Message (toast <code>#toastT</code>)</th>
+<th>Cause / quoi faire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>« Ce navigateur ne prend pas en charge WebGL2 » / « WebGL2 est requis par ce navigateur »</td>
+<td>Active WebGL2 (voir § 2)</td>
+</tr>
+<tr>
+<td>« Importe d’abord une photo »</td>
+<td>Ajouter un logo avant la photo</td>
+</tr>
+<tr>
+<td>« Ce logo n’a pas pu être lu »</td>
+<td>Fichier logo invalide : redemande-le, ne le recrée pas</td>
+</tr>
+<tr>
+<td>« Le modèle IA n’a pas pu se charger · estimation rapide utilisée »</td>
+<td>Réseau ou Hugging Face indisponible</td>
+</tr>
+<tr>
+<td>« La profondeur n’est pas encore prête »</td>
+<td><code>Épouser la surface</code> avant la fin du calcul : attends</td>
+</tr>
+<tr>
+<td>« Ce fichier n’est pas un projet valide »</td>
+<td>Le <code>.json</code> n’est pas un projet Mockup</td>
+</tr>
+<tr>
+<td>« L’export a échoué : image trop grande pour ce navigateur »</td>
+<td>Photo trop grande pour la carte graphique</td>
+</tr>
+</tbody>
+</table></div>
+<p>Autres limites : un SVG est rendu en image (jusqu’à 4096 px de côté) ; la profondeur se calcule sur une version de travail de 2048 px maximum ; changer de photo supprime les logos et l’historique.</p></section>
+<section id="fr-logique-a-suivre-pour-chaque-tache" lang="fr"><h2><span class="n">11</span><span>Logique à suivre pour chaque tâche</span></h2>
+<ol>
+<li>Demande (ou vérifie que tu as) la <strong>photo</strong> et le <strong>logo</strong> de l’utilisateur. Sans logo, n’en fabrique pas.</li>
+<li>Sers le dossier en http, ouvre <code>app.html</code> dans une fenêtre bureau avec WebGL2.</li>
+<li>Importe la photo, attends la profondeur, note sa source.</li>
+<li>Importe le logo, place-le, choisis la matière adaptée à la surface (Cylindre pour bouteille, canette, tasse).</li>
+<li>Masque ce qui doit passer devant ; garde le flou à 0 sauf demande.</li>
+<li>Exporte le PNG (et le <code>.json</code> si utile), vérifie (§ 9), puis rends les fichiers en disant ce qui a été réglé.</li>
+</ol></section>
+<section id="en-intro" lang="en"><p>This document is for AI agents (Claude Code, Codex, or any agent driving a browser through Playwright / CDP). It explains how to use <strong>Mockup</strong> (<code>app.html</code>), Binks Design’s realistic mockup generator: import a photo, let the app compute depth, place a logo, pick a material, adjust, then export a PNG, a JPEG, the depth map or the <code>.json</code> project.</p>
+<p>It lives in two places that always say the same thing: <code>AGENTS.md</code> (Markdown, French then English) and the <code>agent/index.html</code> page. Short summary: <code>llms.txt</code>.</p>
+<p>Entry points that need no JavaScript: <code>index.html</code> and <code>docs.html</code> declare <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> and <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, and include an HTML comment and a <code>&lt;noscript&gt;</code> pointing here. <code>robots.txt</code> allows everything.</p></section>
+<section id="en-golden-rule" lang="en"><h2><span class="n">01</span><span>Golden rule</span></h2>
+<p>Mockup places the logo the user provides onto a photo. It is <strong>not</strong> a logo or photo generator.</p>
+<ul>
+<li><strong>Never invent</strong> a logo, symbol, brand colour, font or brand copy. The logo file (PNG, SVG, WEBP) and the photo provided by the user <strong>are the reference</strong>.</li>
+<li>Do not redraw a provided SVG, do not vectorise it, do not change its geometry or colours. Never replace a missing file with a “close enough” one: ask for it.</li>
+<li><strong>Recolour the logo</strong> changes the colour of the whole logo: only turn it on if the user asks or the brand guidelines say so.</li>
+<li>The demos (t-shirt, bottle, logo of the fictional brand <strong>AVORA</strong>) are for testing. Never deliver a mockup with the AVORA logo instead of the client’s logo.</li>
+<li><strong>No API key.</strong> The app uses none and asks for none: never ask the user for one.</li>
+<li><strong>The photo stays local.</strong> Depth estimation (Depth Anything V2 Small) and object selection (SlimSAM) run in the browser with Transformers.js. Only the library and public models are downloaded (jsDelivr, Hugging Face). No image is sent to a server.</li>
+</ul>
+<p>After every action, read the state back (status texts, downloaded file, screenshot). <strong>A click is not proof of success.</strong></p></section>
+<section id="en-getting-started" lang="en"><h2><span class="n">02</span><span>Getting started</span></h2>
+<h3 id="en-getting-started-serve-and-open-the-app">Serve and open the app</h3>
+<p>The repository is a static site: <code>index.html</code> (home), <code>app.html</code> (the app, one file), <code>docs.html</code> (documentation), <code>agent/index.html</code> (this page), <code>AGENTS.md</code>, <code>llms.txt</code>, <code>robots.txt</code>, <code>assets/</code> (pages only).</p>
+<pre><code class="language-bash">python3 -m http.server 8000
+# then open http://127.0.0.1:8000/app.html
+</code></pre>
+<ul>
+<li><strong>http:// recommended</strong>: the model cache (Cache Storage) and the depth Web Worker only work over http(s). Over <code>file://</code> the app works but recomputes without cache.</li>
+<li><strong>WebGL2 is required.</strong> In headless Chromium, launch for instance with <code>--use-angle=swiftshader --enable-unsafe-swiftshader</code> to get software WebGL2. Without WebGL2 the app shows “Ce navigateur ne prend pas en charge WebGL2” and nothing works.</li>
+<li><strong>Internet the first time</strong>: fonts, icons (Lucide), Transformers.js and models. Depending on the network, huggingface.co may refuse an automated browser: the app then falls back to the <strong>quick estimate</strong> on its own (see § 8).</li>
+<li>Ready when: <code>document.title === "Mockup · Binks Design"</code> and the <code>#pickPhoto</code> button is visible.</li>
+</ul>
+<h3 id="en-getting-started-two-ways-to-drive-it">Two ways to drive it</h3>
+<ol>
+<li><strong>Through the UI</strong> (recommended): hidden <code>&lt;input type="file"&gt;</code> fields, buttons and sliders with stable <code>id</code> and <code>data-*</code> attributes (§ 4).</li>
+<li><strong>Reading state</strong>: the app exposes an internal global object <code>window.__mockup</code> (§ 3). It is not documented as a public API: use it to <strong>read</strong> state and to wait, not to replace the UI.</li>
+</ol></section>
+<section id="en-no-public-api-what-exists" lang="en"><h2><span class="n">03</span><span>No public API: what exists</span></h2>
+<p>Mockup has <strong>no</strong> JavaScript API meant for agents (no equivalent of <code>window.binksyGuide</code>). Do not invent one and do not add one.</p>
+<p>For its own debugging, the app does expose <code>window.__mockup</code>. It is an <strong>internal object with no stability guarantee</strong>. Useful read-only parts:</p>
+<pre><code class="language-js">__mockup.S.photo            // null, or { W, H, name, src }: loaded photo (W×H = full resolution)
+__mockup.S.depthSource      // 'none' | 'ai' | 'quick' | 'custom'
+__mockup.S.depthBusy        // true while the AI runs
+__mockup.S.device           // 'webgpu' | 'wasm' | '': where the AI ran
+__mockup.S.layers           // layers: [{ name, preset, visible, shape: 'plan'|'cyl', corners, ... }]
+__mockup.S.sel              // selected layer index (-1 if none)
+__mockup.S.mode             // 'transform' | 'persp' | 'warp' | 'mask' | 'pick'
+__mockup.S.view2            // { s, ox, oy }: view scale and offset (see § 5)
+Object.keys(__mockup.PRESETS) // ids of the 13 materials
+</code></pre>
+<p>It also holds internal functions (<code>loadDemo()</code>, <code>loadDemoBottle()</code>, <code>exportImage('png'|'jpg')</code>, <code>undo()</code>, <code>redo()</code>…). Prefer the matching buttons; if you call them, check the result in the UI.</p></section>
+<section id="en-stable-hooks" lang="en"><h2><span class="n">04</span><span>Stable hooks</span></h2>
+<p>All these selectors exist in <code>app.html</code> (desktop layout, window wider than 900 px).</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>#fPhoto</code></td>
+<td>photo <code>input[type=file]</code> (JPG, PNG, WEBP)</td>
+</tr>
+<tr>
+<td><code>#fLogo</code></td>
+<td>logos <code>input[type=file]</code> (PNG, SVG, WEBP), <code>multiple</code></td>
+</tr>
+<tr>
+<td><code>#fDepth</code></td>
+<td>depth map <code>input[type=file]</code> (image)</td>
+</tr>
+<tr>
+<td><code>#fProj</code></td>
+<td><code>.json</code> project <code>input[type=file]</code></td>
+</tr>
+<tr>
+<td><code>#pickPhoto</code> · <code>#demoBtn</code> · <code>#demoBottle</code></td>
+<td>Start screen: Choose a photo · T-shirt demo · Bottle demo (only visible with no photo)</td>
+</tr>
+<tr>
+<td><code>#st1</code> · <code>#st2</code> · <code>#st3</code></td>
+<td>Photo / Depth / Logo steps; status texts <code>#st1s</code>, <code>#st2s</code>, <code>#st3s</code></td>
+</tr>
+<tr>
+<td><code>#addLayer</code> · <code>#addLogo2</code></td>
+<td>Add a logo</td>
+</tr>
+<tr>
+<td><code>#layers .layer[data-i="N"]</code></td>
+<td>Layer N (click = select); <code>[data-act="vis"]</code> hide/show, <code>[data-act="del"]</code> delete</td>
+</tr>
+<tr>
+<td><code>#modes [data-mode="transform|persp|warp|mask"]</code></td>
+<td>Move / Perspective (Shape on a cylinder) / Warp / Mask tools</td>
+</tr>
+<tr>
+<td><code>#views [data-view="render|depth"]</code></td>
+<td>Render / Depth view</td>
+</tr>
+<tr>
+<td><code>#undo</code> · <code>#redo</code> · <code>#compare</code> · <code>#fit</code></td>
+<td>Undo · Redo · Before/after (hold) · Fit to screen</td>
+</tr>
+<tr>
+<td><code>#tabs [data-tab="mat|depth"]</code></td>
+<td>Material / Depth panel tabs</td>
+</tr>
+<tr>
+<td><code>#shapeSeg [data-s="plan|cyl"]</code></td>
+<td>Free / Cylinder shape</td>
+</tr>
+<tr>
+<td><code>#cylDetect</code> · <code>#backSw</code></td>
+<td>Detect the object · Visible on the back (switch, class <code>on</code>)</td>
+</tr>
+<tr>
+<td><code>#chips .chip[data-p="&lt;id&gt;"]</code></td>
+<td>Material (class <code>on</code> = active)</td>
+</tr>
+<tr>
+<td><code>#coreSliders .sl[data-k="&lt;key&gt;"] input</code></td>
+<td>Main sliders: <code>disp</code>, <code>shade</code>, <code>spec</code>, <code>tex</code>, <code>flou</code> (blur)</td>
+</tr>
+<tr>
+<td><code>#moreBtn</code> then <code>#advSliders .sl[data-k]</code></td>
+<td><code>soft</code>, <code>bleed</code>, <code>refl</code>, <code>frost</code>, <code>relief</code> (−1000 to 1000), <code>stitch</code>, <code>tint</code>, <code>burn</code>, <code>glass</code>, <code>glow</code></td>
+</tr>
+<tr>
+<td><code>#opSlider .sl[data-k="opacity"] input</code></td>
+<td>Opacity</td>
+</tr>
+<tr>
+<td><code>#blendSeg [data-b="0|1|2"]</code></td>
+<td>Normal / Multiply (Produit) / Overlay (Incrustation)</td>
+</tr>
+<tr>
+<td><code>#recolorSw</code> · <code>#ink</code> · <code>#inkSws button[data-c]</code></td>
+<td>Recolour (switch) · colour · quick swatches</td>
+</tr>
+<tr>
+<td><code>#bifFold</code> · <code>#bifCh [data-c="0..3"]</code> · <code>#bifReset</code></td>
+<td>Blending options: unfold · Grey/Red/Green/Blue · reset</td>
+</tr>
+<tr>
+<td><code>#fitSurf</code> · <code>#resetWarp</code></td>
+<td>Fit to surface · Reset warp</td>
+</tr>
+<tr>
+<td><code>#pickBtn</code> · <code>#pickKind [data-k="clip|front"]</code> · <code>#pickSign [data-s="1|-1"]</code></td>
+<td>Object selection · Logo on the object / Object in front · Add / Remove</td>
+</tr>
+<tr>
+<td><code>#brushSeg [data-e="1|0"]</code> · <code>#brushSliders .sl[data-k="size|hard"]</code></td>
+<td>Brush Erase / Restore · size, hardness</td>
+</tr>
+<tr>
+<td><code>#autoSw</code> · <code>#autoSlider .sl[data-k="autoSens"]</code> · <code>#clearMask</code></td>
+<td>Automatic mask · sensitivity · reset mask</td>
+</tr>
+<tr>
+<td><code>#depthSliders .sl[data-k="smooth|gain"]</code></td>
+<td>Smoothing · Relief strength</td>
+</tr>
+<tr>
+<td><code>#showDepthSw</code> · <code>#reDepth</code> · <code>#quickDepth</code> · <code>#importDepth</code> · <code>#exportDepth</code></td>
+<td>Depth tab</td>
+</tr>
+<tr>
+<td><code>#exportBtn</code> then <code>#exportPop [data-x="png|jpg|depth|save|open"]</code></td>
+<td>Export menu</td>
+</tr>
+<tr>
+<td><code>#toastT</code></td>
+<td>Text of the latest message (toast)</td>
+</tr>
+<tr>
+<td><code>#ov</code></td>
+<td>Handles canvas (mouse, drag)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Material ids (<code>data-p</code>): <code>tissu</code> (fabric), <code>carton</code> (cardboard), <code>vitre</code> (window), <code>metal</code>, <code>papier</code> (paper), <code>plastique</code> (plastic), <code>broderie</code> (embroidery), <code>verre</code> (glass), <code>canette</code> (can), <code>ceramique</code> (ceramic), <code>cuir</code> (leather), <code>bois</code> (engraved wood), <code>neon</code>. <code>verre</code>, <code>canette</code> and <code>ceramique</code> are meant for the Cylinder shape.</p>
+<p>Below 900 px wide (or in phone landscape), the app switches to its mobile layout: bar <code>#mTabs [data-sheet="photo|logos|mat|fus|mask"]</code>, menu <code>#mMore</code>, sheets <code>#sheet</code>. Prefer driving it in a desktop window (for example 1440 × 900).</p></section>
+<section id="en-step-by-step" lang="en"><h2><span class="n">05</span><span>Step by step</span></h2>
+<h3 id="en-step-by-step-playwright-example-python">Playwright example (Python)</h3>
+<pre><code class="language-python">from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    b = p.chromium.launch(args=[&quot;--use-angle=swiftshader&quot;, &quot;--enable-unsafe-swiftshader&quot;])
+    page = b.new_page(viewport={&quot;width&quot;: 1440, &quot;height&quot;: 900}, accept_downloads=True)
+    page.goto(&quot;http://127.0.0.1:8000/app.html&quot;)
+    page.wait_for_selector(&quot;#pickPhoto&quot;)
+
+    # 1. Photo provided by the user
+    page.set_input_files(&quot;#fPhoto&quot;, &quot;client-photo.jpg&quot;)
+    # 2. Wait for depth (AI or quick estimate)
+    page.wait_for_function(&quot;__mockup.S.photo &amp;&amp; !__mockup.S.depthBusy &amp;&amp; __mockup.S.depthSource !== 'none'&quot;,
+                           timeout=300_000)
+    print(page.inner_text(&quot;#st2s&quot;))   # &quot;Carte IA prête&quot;, &quot;Estimation rapide&quot;…
+    # 3. Logo provided by the user (centred, 34 % of the photo's short side)
+    page.set_input_files(&quot;#fLogo&quot;, &quot;client-logo.svg&quot;)
+    page.wait_for_function(&quot;__mockup.S.layers.length === 1&quot;)
+    # 4. Material
+    page.click('#chips [data-p=&quot;tissu&quot;]')
+    # 5. Full-resolution PNG export
+    page.click(&quot;#exportBtn&quot;)
+    with page.expect_download() as d:
+        page.click('#exportPop [data-x=&quot;png&quot;]')
+    d.value.save_as(&quot;client-photo-mockup.png&quot;)
+    # 6. .json project to resume later
+    page.click(&quot;#exportBtn&quot;)
+    with page.expect_download() as d:
+        page.click('#exportPop [data-x=&quot;save&quot;]')
+    d.value.save_as(&quot;client-photo.mockup.json&quot;)
+    b.close()
+</code></pre>
+<h3 id="en-step-by-step-placing-the-logo">Placing the logo</h3>
+<p>The logo arrives centred. To place it:</p>
+<ul>
+<li><strong>Keyboard</strong>: select the layer, then arrows (1 screen px) or <code>Shift</code> + arrows (10 px).</li>
+<li><strong>Mouse</strong>: drag inside the logo to move it; square corner and edge handles to resize; round handle above to rotate (<code>Shift</code>: 15° steps). To aim at a point of the photo, convert its photo-pixel coordinates to <code>#ov</code> canvas coordinates: <code>x = ix * S.view2.s + S.view2.ox</code>, <code>y = iy * S.view2.s + S.view2.oy</code>, then add the position of <code>#ov</code> (<code>bounding_box()</code>).</li>
+<li><strong>Perspective</strong> (<code>P</code>): drag the 4 corners. <strong>Warp</strong> (<code>D</code>): 4 × 4 point grid. <strong>Fit to surface</strong> (<code>#fitSurf</code>) tilts the logo according to the depth map.</li>
+<li><strong>Cylinder</strong> (bottle, can, mug): <code>#shapeSeg [data-s="cyl"]</code>, then <code>#cylDetect</code> and a click on the object; the frame snaps to it (or, without AI, an estimated frame is proposed).</li>
+</ul>
+<h3 id="en-step-by-step-setting-a-slider">Setting a slider</h3>
+<p>Sliders are <code>input[type=range]</code> from 0 to 1000 (relief: −1000 to 1000), rebuilt on every panel refresh: query them right before changing them.</p>
+<pre><code class="language-js">const set = (sel, v) =&gt; { const i = document.querySelector(sel); i.value = v;
+  i.dispatchEvent(new Event('input', { bubbles: true })); i.dispatchEvent(new Event('change', { bubbles: true })); };
+set('#coreSliders .sl[data-k=&quot;flou&quot;] input', 0);      // sharp logo
+set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // 95 % opacity
+</code></pre>
+<p><code>input</code> updates the preview, <code>change</code> records it in the history. Double-click a slider: back to the material’s value.</p></section>
+<section id="en-exports-and-files" lang="en"><h2><span class="n">06</span><span>Exports and files</span></h2>
+<p>Every file arrives as a browser <strong>download</strong> (catch it with <code>expect_download</code>). <code>&lt;photo&gt;</code> = photo file name without extension.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th><code>#exportPop</code> menu</th>
+<th>File</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[data-x="png"]</code> (or <code>Ctrl</code>/<code>⌘</code>+<code>E</code>)</td>
+<td><code>&lt;photo&gt;-mockup.png</code></td>
+<td>Render at the photo’s resolution (limit: GPU max texture size; 4096 px on touch screens)</td>
+</tr>
+<tr>
+<td><code>[data-x="jpg"]</code></td>
+<td><code>&lt;photo&gt;-mockup.jpg</code></td>
+<td>Same render, JPEG quality 0.95</td>
+</tr>
+<tr>
+<td><code>[data-x="depth"]</code></td>
+<td><code>&lt;photo&gt;-profondeur.png</code></td>
+<td>Greyscale depth map, photo size</td>
+</tr>
+<tr>
+<td><code>[data-x="save"]</code> (or <code>Ctrl</code>/<code>⌘</code>+<code>S</code>)</td>
+<td><code>&lt;photo&gt;.mockup.json</code></td>
+<td>Full project</td>
+</tr>
+<tr>
+<td><code>[data-x="open"]</code></td>
+<td>—</td>
+<td>Opens <code>#fProj</code> to load a project</td>
+</tr>
+</tbody>
+</table></div>
+<p>The <code>.mockup.json</code> project is a JSON <code>{ app: "binks-mockup", version: 2, photo: { src, name }, depth: { source, w, h, data, device }, depthP, layers: [...] }</code>: photo and logos are embedded (data URL or SVG text), with each layer’s position, mesh, material, settings, shape and mask. Open it with <code>page.set_input_files("#fProj", "file.mockup.json")</code> or by dropping it on the page; toast “Projet ouvert”.</p></section>
+<section id="en-persistent-state" lang="en"><h2><span class="n">07</span><span>Persistent state</span></h2>
+<ul>
+<li><strong>No automatic save of the work.</strong> Reloading the page clears photo, logos and settings. To keep work: save the <code>.json</code> project.</li>
+<li><code>localStorage</code> (page origin): <code>mockup.bif</code> (<code>"1"</code> / <code>"0"</code>: blending options unfolded or not) and <code>mockup.modelOK</code> (<code>"1"</code>: on mobile, the user agreed to download the model). Nothing else.</li>
+<li>Cache Storage: <code>transformers-cache</code> (models downloaded by Transformers.js) and <code>mockup-probe</code> (cache availability test).</li>
+<li>Use a dedicated test browser profile if you do not want to leave these traces.</li>
+</ul></section>
+<section id="en-depth-and-ai" lang="en"><h2><span class="n">08</span><span>Depth and AI</span></h2>
+<ul>
+<li>Runs automatically on every new photo. Status in <code>#st2s</code>: “Chargement du modèle…”, “Téléchargement du modèle”, “Analyse de la profondeur…”, then “Carte IA prête”, “Estimation rapide”, “Carte importée” or “IA indisponible · estimation rapide”.</li>
+<li><code>__mockup.S.depthSource</code>: <code>ai</code> (Depth Anything V2), <code>quick</code> (quick estimate, no AI), <code>custom</code> (imported map). <code>S.device</code>: <code>webgpu</code> or <code>wasm</code>.</li>
+<li>The first AI run downloads the model (about 100 MB according to the app); allow several minutes on a slow CPU or software rendering. Use a generous <code>timeout</code>.</li>
+<li>If the AI fails, the app falls back to the quick estimate on its own: the result is usable, but <strong>tell the user</strong>. <code>#reDepth</code> retries the AI; <code>#importDepth</code> / <code>#fDepth</code> accepts a provided map (light = near).</li>
+<li>Object selection (<code>#pickBtn</code>, <code>#cylDetect</code>) loads SlimSAM the first time; on failure: toast “La sélection IA a besoin d’internet la première fois · cadre estimé sans IA”.</li>
+</ul></section>
+<section id="en-checks-before-handing-back" lang="en"><h2><span class="n">09</span><span>Checks before handing back</span></h2>
+<ol>
+<li>The logo used is <strong>exactly</strong> the provided file (not AVORA, not a redrawn version).</li>
+<li><code>#st2s</code> shows the depth source; if it is the quick estimate or an imported map, say so.</li>
+<li>The exported file exists, opens, and has the expected size (the photo’s, unless the GPU limit applies).</li>
+<li>Look at the export: logo visible, well placed, not cut by an unintended mask, no recolouring nobody asked for.</li>
+<li>If the user needs to resume the work, also hand over the <code>.mockup.json</code>.</li>
+<li>No console errors (apart from AI model loading warnings, if they led to the quick estimate).</li>
+</ol></section>
+<section id="en-limits-and-errors" lang="en"><h2><span class="n">10</span><span>Limits and errors</span></h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Message (toast <code>#toastT</code>)</th>
+<th>Cause / what to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Ce navigateur ne prend pas en charge WebGL2” / “WebGL2 est requis par ce navigateur”</td>
+<td>Enable WebGL2 (see § 2)</td>
+</tr>
+<tr>
+<td>“Importe d’abord une photo”</td>
+<td>Logo added before the photo</td>
+</tr>
+<tr>
+<td>“Ce logo n’a pas pu être lu”</td>
+<td>Invalid logo file: ask for it again, do not recreate it</td>
+</tr>
+<tr>
+<td>“Le modèle IA n’a pas pu se charger · estimation rapide utilisée”</td>
+<td>Network or Hugging Face unavailable</td>
+</tr>
+<tr>
+<td>“La profondeur n’est pas encore prête”</td>
+<td><code>Fit to surface</code> before depth finished: wait</td>
+</tr>
+<tr>
+<td>“Ce fichier n’est pas un projet valide”</td>
+<td>The <code>.json</code> is not a Mockup project</td>
+</tr>
+<tr>
+<td>“L’export a échoué : image trop grande pour ce navigateur”</td>
+<td>Photo too large for the GPU</td>
+</tr>
+</tbody>
+</table></div>
+<p>Other limits: an SVG is rendered to an image (up to 4096 px per side); depth is computed on a working copy of at most 2048 px; changing the photo removes the logos and the history.</p></section>
+<section id="en-logic-for-every-task" lang="en"><h2><span class="n">11</span><span>Logic for every task</span></h2>
+<ol>
+<li>Ask for (or check you have) the user’s <strong>photo</strong> and <strong>logo</strong>. Without a logo, do not make one up.</li>
+<li>Serve the folder over http, open <code>app.html</code> in a desktop window with WebGL2.</li>
+<li>Import the photo, wait for depth, note its source.</li>
+<li>Import the logo, place it, pick the material that fits the surface (Cylinder for bottle, can, mug).</li>
+<li>Mask whatever must pass in front; keep blur at 0 unless asked.</li>
+<li>Export the PNG (and the <code>.json</code> if useful), check (§ 9), then hand over the files saying what was set.</li>
+</ol></section>
+    </article>
+  </div>
+</main>
+<footer class="foot doc-foot">
+  <div class="in-w foot-in">
+    <span class="foot-l"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12" stroke="#111"/><path d="M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z" fill="#ff5500" stroke="#ff5500"/></svg>Mockup · by binks design</span>
+    <ul class="foot-r">
+      <li><a href="../docs.html">Documentation</a></li>
+      <li><a href="../agent/index.html">Agents IA</a></li>
+      <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
+      <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
+    </ul>
+    <small>Gratuit, sans compte : ta photo et ton logo restent dans ton navigateur. Polices de ces pages : Clash Display (<a href="../assets/fonts/ClashDisplay-FFL.txt">licence FFL</a>) et Instrument Sans (<a href="../assets/fonts/InstrumentSans-OFL.txt">licence OFL</a>). Images de démonstration : photos Pexels intégrées à l’app, marque fictive AVORA.</small>
+  </div>
+</footer>
+</div>
+</body>
+</html>
