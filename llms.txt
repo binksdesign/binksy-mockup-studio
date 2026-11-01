@@ -1,0 +1,20 @@
+# Mockup — Binks Design
+
+> Générateur de mockups réalistes, 100 % navigateur, par Binks Design. Tu déposes une photo (JPG, PNG, WEBP) et un logo (PNG, SVG, WEBP) : une IA de profondeur (Depth Anything V2 Small, Transformers.js, exécutée dans le navigateur) fait épouser au logo les plis, la perspective et la lumière. 13 matières, forme cylindre, déformation, masque avec sélection d'objet (SlimSAM), export PNG / JPEG pleine résolution, carte de profondeur, projet .json. Aucune clé API, aucun compte ; la photo n'est jamais envoyée à un serveur (seuls les modèles publics sont téléchargés).
+> Realistic mockup generator, browser-only, by Binks Design. Drop a photo and a logo: an in-browser depth model makes the logo follow folds, perspective and light. 13 materials, cylinder shape, warp, mask with one-click object selection, full-resolution PNG / JPEG export, depth map, .json project. No API key, no account; the photo is never uploaded (only public models are downloaded).
+
+AI agents drive it through its UI: there is NO public JavaScript API. Stable hooks: #fPhoto, #fLogo, #fDepth, #fProj (file inputs), #chips .chip[data-p], #coreSliders / #advSliders .sl[data-k] input (range 0–1000), #exportBtn then #exportPop [data-x=png|jpg|depth|save|open]. Exports arrive as browser downloads. The internal object window.__mockup (unstable, debug) can be read to wait for state (S.depthSource, S.depthBusy, S.layers).
+Serve over http (python3 -m http.server) and open app.html; WebGL2 is required. Work is not auto-saved: save the .mockup.json project.
+
+Golden rule: the user brings the photo and the logo; never invent, redraw or recolour a logo unless asked.
+
+## Docs
+
+- [AGENTS.md](AGENTS.md): full guide for AI agents (Markdown, French then English)
+- [agent/index.html](agent/index.html): same guide as an HTML page
+- [docs.html](docs.html): human documentation (French)
+
+## App
+
+- [app.html](app.html): the app (single HTML file, demos built in: t-shirt and bottle with the fictional AVORA logo)
+- [index.html](index.html): home page
