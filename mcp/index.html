@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MCP / Agents IA — Mockup</title>
+<meta name="description" content="Connecter un agent IA à Mockup : outils WebMCP et window.BinksyAPI, Claude Code, Codex, Hermes, OpenCode via Playwright MCP. 100 % local, sans compte ni clé.">
+<meta name="theme-color" content="#111111">
+<meta name="author" content="Binks Design">
+<meta property="og:title" content="MCP / Agents IA — Mockup">
+<meta property="og:description" content="Connecter un agent IA à Mockup : outils WebMCP et window.BinksyAPI, Claude Code, Codex, Hermes, OpenCode via Playwright MCP. 100 % local, sans compte ni clé.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cg transform='translate(4 4)' fill='none' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12' stroke='%23f2f2f0'/%3E%3Cpath d='M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z' fill='%23ff5500' stroke='%23ff5500'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="alternate" type="text/markdown" href="../AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
+<link rel="help" href="../agent/" title="Agents IA">
+<link rel="alternate" type="text/plain" href="../llms.txt" title="llms.txt">
+<link rel="stylesheet" href="../assets/site.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
+<script src="../assets/site.js" defer></script>
+</head>
+<!-- Agents IA / AI agents : Mockup expose window.BinksyAPI (describe, ready, getState, importer, exporter…) et les mêmes outils en WebMCP. Mode d’emploi : ../AGENTS.md. Rien n’est envoyé, aucune clé. -->
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : outils listés ci-dessous ; mode d’emploi complet dans <a href="../AGENTS.md">AGENTS.md</a>. L’app est <a href="../app.html">app.html</a>.</p></noscript>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Mockup — accueil"><span class="mk"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12" stroke="#f2f2f0"/><path d="M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z" fill="#ff5500" stroke="#ff5500"/></svg></span><b>Mockup</b></a>
+  <a class="sig" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">by binks design</a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="../index.html">Accueil</a>
+    <a href="../docs.html">Documentation</a>
+    <a href="../agent/index.html">Agents IA</a>
+    <a href="../mcp/" aria-current="page">MCP</a>
+    <a class="cta" href="../app.html">Ouvrir l’app</a>
+  </nav>
+</header>
+<div class="sheet"><main id="contenu">
+  <div class="doc-hero">
+    <div class="plane" aria-hidden="true"></div>
+    <div class="in-w">
+      <p class="kicker"><i aria-hidden="true"></i>Pour Claude Code, Codex, Hermes, OpenCode et les agents intégrés au navigateur</p>
+      <h1 class="doc-h1"><span class="mask"><span>Connecter</span></span><span class="mask"><span style="--i:1">un <em>agent IA</em></span></span></h1>
+      <p class="lead">Mockup se pilote par des outils : WebMCP quand le navigateur le propose, et <code>window.BinksyAPI</code> partout. Tout reste dans la page : aucun compte, aucune clé, rien n’est envoyé.</p>
+      <div class="meta lang-switch">
+        <a class="tag" href="#fr-1-ce-que-l-agent-peut-faire">Français</a>
+        <a class="tag" href="#en-english-connect-an-ai-agent" hreflang="en">English</a>
+        <a class="tag" href="../AGENTS.md" type="text/markdown">AGENTS.md</a>
+        <a class="tag" href="../llms.txt" type="text/plain">llms.txt</a>
+        <a class="tag" href="../app.html">Ouvrir l’app</a>
+      </div>
+    </div>
+  </div>
+  <div class="in-w doc-grid">
+    <article class="prose" style="grid-column:1/-1">
+<section lang="fr">
+<h2 id="fr-1-ce-que-l-agent-peut-faire"><span class="n">01</span><span>Ce que l’agent peut faire</span></h2>
+<p>10 outils, identiques en WebMCP et dans <code>window.BinksyAPI</code> (une seule table de définitions, schémas JSON lisibles avec <code>BinksyAPI.describe()</code>).</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Outil WebMCP</th>
+<th>Méthode <code>BinksyAPI</code></th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mockup_describe</code></td>
+<td><code>describe</code></td>
+<td>Décrit Mockup (Binks Design) et la liste de ses outils (schémas JSON).</td>
+</tr>
+<tr>
+<td><code>mockup_etat</code></td>
+<td><code>getState</code></td>
+<td>État courant : photo, profondeur (source ai/quick/custom, en cours), calques logo (matière, position, réglages), matières disponibles, historique.</td>
+</tr>
+<tr>
+<td><code>mockup_importer</code></td>
+<td><code>importer</code></td>
+<td>Importe les fichiers de l’utilisateur comme un dépôt : photo (JPG/PNG/WEBP), logos (PNG/SVG/WEBP, centrés), carte de profondeur, ou projet .mockup.json. Sans as : .json = projet, 1re image = photo si aucune, sinon logo.</td>
+</tr>
+<tr>
+<td><code>mockup_profondeur</code></td>
+<td><code>depth</code></td>
+<td>Carte de profondeur : attendre la fin du calcul IA, relancer l’IA, ou passer en estimation rapide ; règle aussi lissage (smooth) et intensité (gain), 0 à 1.</td>
+</tr>
+<tr>
+<td><code>mockup_choisir_matiere</code></td>
+<td><code>setMaterial</code></td>
+<td>Applique une matière au calque logo : tissu (Tissu), carton (Carton), vitre (Vitre), metal (Métal), papier (Papier), plastique (Plastique), broderie (Broderie), verre (Verre), canette (Canette), ceramique (Céramique), cuir (Cuir), bois (Bois gravé), neon (Néon).</td>
+</tr>
+<tr>
+<td><code>mockup_regler_calque</code></td>
+<td><code>setLayer</code></td>
+<td>Règle un calque logo : réglages de matière (0 à 1 ; relief −1 à 1 ; blend 0/1/2 ; recolor + ink #RRGGBB seulement si l’utilisateur le demande), position en pixels de la photo (cx, cy, width, rotation en degrés), forme plan/cyl, visibilité, nom, épouser la surface.</td>
+</tr>
+<tr>
+<td><code>mockup_calque</code></td>
+<td><code>layer</code></td>
+<td>Sélectionne ou supprime un calque logo (suppression : confirm: true après accord de l’utilisateur).</td>
+</tr>
+<tr>
+<td><code>mockup_historique</code></td>
+<td><code>history</code></td>
+<td>Annule (undo) ou rétablit (redo) la dernière modification.</td>
+</tr>
+<tr>
+<td><code>mockup_exporter</code></td>
+<td><code>exporter</code></td>
+<td>Exporte sans téléchargement forcé : rendu pleine résolution png ou jpg, carte de profondeur (depth) ou projet (json). Renvoie { files: [{ name, type, dataBase64 }] }.</td>
+</tr>
+<tr>
+<td><code>mockup_reset</code></td>
+<td><code>reset</code></td>
+<td>Efface tout le travail (photo, logos, réglages, sauvegarde automatique) et recharge la page. Demande confirmation à l’utilisateur, puis passe confirm: true.</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="fr-2-connexion-a-agent-int-gr-au-navigateur-webmcp"><span class="n">02</span><span>Connexion A — agent intégré au navigateur (WebMCP)</span></h2>
+<p>WebMCP est une proposition de standard du W3C, encore <strong>expérimentale</strong> : à ce jour (novembre 2026), Chrome la propose en préversion (Chrome 146 ou plus récent, drapeau <code>chrome://flags/#enable-webmcp-testing</code> à activer puis redémarrer le navigateur ; essai d’origine à partir de Chrome 149). Les noms et l’emplacement des réglages peuvent changer : vérifie la <a href="https://developer.chrome.com/docs/ai/webmcp">documentation Chrome for Developers</a>.</p>
+<ol>
+<li>Ouvre <a href="https://mockup.binksdesign.com/app.html">https://mockup.binksdesign.com/app.html</a> dans ce navigateur (https ou <code>localhost</code>).</li>
+<li>L’app enregistre ses outils toute seule (<code>document.modelContext.registerTool</code>, ou <code>navigator.modelContext</code> sur les premières versions) : l’agent du navigateur, ou une extension comme « WebMCP – Model Context Tool Inspector », les voit apparaître.</li>
+<li>Demande ton travail à l’agent en langage naturel ; il appelle les outils ci-dessus.</li>
+</ol>
+<p>Si WebMCP n’est pas disponible, rien ne change pour toi : l’app fonctionne normalement et <code>window.BinksyAPI</code> reste là pour la connexion B.</p>
+<h2 id="fr-3-connexion-b-claude-code-codex-hermes-opencode-playwright-mcp"><span class="n">03</span><span>Connexion B — Claude Code, Codex, Hermes, OpenCode (Playwright MCP)</span></h2>
+<p>Ces agents tournent sur ton ordinateur : donne-leur un navigateur avec le serveur MCP standard <strong>Playwright MCP</strong> (<code>npx @playwright/mcp@latest</code>). Ajoute-le à la configuration MCP de ton agent (fichier <code>.mcp.json</code> de Claude Code, configuration MCP de Codex, d’OpenCode ou d’Hermes ; la forme exacte du fichier dépend de l’agent) :</p>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;playwright&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;@playwright/mcp@latest&quot;]
+    }
+  }
+}
+</code></pre>
+<p>L’app a besoin de <strong>WebGL2</strong>. Sur un ordinateur avec carte graphique, rien à faire. Sans carte graphique (serveur, navigateur sans affichage), donne à Chromium un rendu logiciel : arguments de lancement <code>--use-angle=swiftshader --enable-unsafe-swiftshader</code>, à passer par le fichier de configuration de Playwright MCP (<code>--config</code>, rubrique <code>browser.launchOptions.args</code> ; voir sa documentation). Le rendu est alors plus lent.</p>
+<p>Consigne : l’agent ouvre l’URL de l’app, attend <code>window.BinksyAPI</code>, puis appelle les méthodes avec l’outil d’évaluation JavaScript de Playwright MCP (<code>browser_evaluate</code>). Les fichiers de l’utilisateur passent en base64 ; les exports reviennent en base64.</p>
+<pre><code class="language-js">// 1. découvrir les outils
+await BinksyAPI.ready();
+const info = await BinksyAPI.describe();   // { app, version, apiVersion: &quot;1&quot;, tools: [...] }
+const etat = await BinksyAPI.getState();
+</code></pre>
+<pre><code class="language-js">// 2. importer les fichiers fournis par l’utilisateur
+// photo puis logo FOURNIS par l’utilisateur (base64 ou data: URL)
+await BinksyAPI.importer({ files: [{ name: 'photo-client.jpg', type: 'image/jpeg', dataBase64: PHOTO_B64 }] });
+await BinksyAPI.depth({ action: 'attendre', timeoutMs: 300000 });  // IA locale, ou estimation rapide
+await BinksyAPI.importer({ files: [{ name: 'logo.svg', type: 'image/svg+xml', text: SVG_TEXT }], preset: 'tissu' });
+await BinksyAPI.setLayer({ reglages: { flou: 0, opacity: 0.95 }, position: { cx: 820, cy: 640, width: 420, rotation: -4 } });
+</code></pre>
+<pre><code class="language-js">// 3. exporter (rien n’est téléchargé de force)
+const { files } = await BinksyAPI.exporter({ format: 'png' });   // rendu pleine résolution
+const projet = await BinksyAPI.exporter({ format: 'json' });          // projet .mockup.json
+</code></pre>
+<h2 id="fr-4-prompt-pr-t-copier"><span class="n">04</span><span>Prompt prêt à copier</span></h2>
+<pre style="white-space:pre-wrap"><code class="language-text">Ouvre https://mockup.binksdesign.com/app.html dans Chromium (Playwright MCP, avec --use-angle=swiftshader --enable-unsafe-swiftshader si pas de GPU). Attends window.BinksyAPI, appelle await BinksyAPI.describe(), puis importe ma photo et mon logo (fichiers joints, en base64) avec BinksyAPI.importer, attends la profondeur (BinksyAPI.depth), choisis la matière « tissu », place le logo sur la poitrine et exporte un PNG pleine résolution avec BinksyAPI.exporter. N’utilise jamais le logo de démo AVORA, ne redessine pas mon logo, ne demande aucune clé.
+</code></pre>
+<h2 id="fr-5-rien-ne-quitte-ton-navigateur"><span class="n">05</span><span>Rien ne quitte ton navigateur</span></h2>
+<p>Pas de compte, pas de clé API, pas de serveur Binks Design : l’API et les outils WebMCP s’exécutent dans la page, comme l’interface. Tes fichiers restent dans ce navigateur (sauvegarde automatique IndexedDB). L’agent ne lit ni n’écrit aucune clé API.</p>
+</section>
+<section lang="en">
+<h2 id="en-english-connect-an-ai-agent"><span class="n">EN</span><span>English — connect an AI agent</span></h2>
+<p>Mockup exposes 10 tools, the same in WebMCP and in <code>window.BinksyAPI</code> (<code>await BinksyAPI.describe()</code> returns their JSON schemas). Everything runs in the page: no account, no API key, no upload.</p>
+<ul>
+<li><strong>A — agent built into the browser (WebMCP, experimental):</strong> in a recent Chrome with <code>chrome://flags/#enable-webmcp-testing</code> enabled (Chrome 146+, check the <a href="https://developer.chrome.com/docs/ai/webmcp">Chrome docs</a>), open <a href="https://mockup.binksdesign.com/app.html">https://mockup.binksdesign.com/app.html</a>; the tools register themselves.</li>
+<li><strong>B — Claude Code, Codex, Hermes, OpenCode:</strong> add Playwright MCP (<code>npx @playwright/mcp@latest</code>, JSON above) to the agent’s MCP config, open the app URL, wait for <code>window.BinksyAPI</code>, then call its methods through <code>browser_evaluate</code>. Files go in and come out as base64; <code>exporter</code> never forces a download.</li>
+</ul>
+<pre style="white-space:pre-wrap"><code class="language-text">Open https://mockup.binksdesign.com/app.html in Chromium (Playwright MCP, with --use-angle=swiftshader --enable-unsafe-swiftshader without a GPU). Wait for window.BinksyAPI, call await BinksyAPI.describe(), import my photo and logo (attached, base64) with BinksyAPI.importer, wait for depth (BinksyAPI.depth), pick the “tissu” material, place the logo on the chest and export a full-resolution PNG with BinksyAPI.exporter. Never use the AVORA demo logo, never redraw my logo, never ask for a key.
+</code></pre>
+</section>
+    </article>
+  </div>
+</main>
+<footer class="foot doc-foot">
+  <div class="in-w foot-in">
+    <span class="foot-l"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16.02 12 5.48 3.13a1 1 0 0 1 0 1.74L13 21.74a2 2 0 0 1-2 0l-8.5-4.87a1 1 0 0 1 0-1.74L7.98 12" stroke="#111"/><path d="M13 13.74a2 2 0 0 1-2 0L2.5 8.87a1 1 0 0 1 0-1.74L11 2.26a2 2 0 0 1 2 0l8.5 4.87a1 1 0 0 1 0 1.74Z" fill="#ff5500" stroke="#ff5500"/></svg>Mockup · by binks design</span>
+    <ul class="foot-r">
+      <li><a href="../docs.html">Documentation</a></li>
+      <li><a href="../agent/index.html">Agents IA</a></li>
+      <li><a href="../mcp/">MCP</a></li>
+      <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
+      <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
+    </ul>
+    <small>Gratuit, sans compte : ta photo et ton logo restent dans ton navigateur. Polices de ces pages : Clash Display (<a href="../assets/fonts/ClashDisplay-FFL.txt">licence FFL</a>) et Instrument Sans (<a href="../assets/fonts/InstrumentSans-OFL.txt">licence OFL</a>). Images de démonstration : photos Pexels intégrées à l’app, marque fictive AVORA.</small>
+  </div>
+</footer>
+</div>
+</body>
+</html>

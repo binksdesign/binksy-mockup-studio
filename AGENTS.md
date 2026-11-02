@@ -10,6 +10,42 @@ Il existe en deux endroits, toujours identiques : `AGENTS.md` (Markdown, frança
 
 Points d’entrée découvrables sans JavaScript : `index.html` et `docs.html` déclarent `<link rel="alternate" type="text/markdown" href="AGENTS.md">`, `<link rel="help" href="agent/">` et `<link rel="alternate" type="text/plain" href="llms.txt">`, et contiennent un commentaire HTML et un `<noscript>` qui renvoient ici. `robots.txt` autorise tout.
 
+## API agents : `window.BinksyAPI` et WebMCP
+
+Mockup expose une **API JavaScript publique et versionnée** (`apiVersion: "1"`) pour qu’un agent pilote l’app sans cliquer. Tout reste dans la page : aucun serveur, aucun envoi, aucun compte, aucune clé. Les règles ci-dessus et ci-dessous restent valables (ne rien inventer, travailler sur les fichiers fournis).
+
+- `window.BinksyAPI` existe dès le chargement ; `await BinksyAPI.ready()` attend que l’état enregistré (IndexedDB) soit restauré. Toutes les méthodes sont async et renvoient du JSON ; une erreur est rejetée avec `{ code, message }` lisible.
+- `BinksyAPI.describe()` renvoie `{ app, version, apiVersion, description, tools }` : la même table que les outils WebMCP (noms, descriptions, schémas JSON).
+- Les mêmes outils sont enregistrés en **WebMCP** quand le navigateur le propose (`document.modelContext.registerTool`, et `navigator.modelContext` des premières versions) : un agent intégré au navigateur les voit sans configuration.
+- `importer` prend `{ files: [{ name, type, dataBase64 | text | url (data:) }] }` comme un dépôt de fichiers ; `exporter` renvoie `{ files: [{ name, type, dataBase64 }] }` **sans** téléchargement forcé (`download: true` pour télécharger aussi).
+- Chaque appel passe par la même logique que l’interface, met l’écran à jour et déclenche la sauvegarde automatique.
+- Connexion pas à pas (WebMCP, Claude Code / Codex / Hermes / OpenCode via Playwright MCP, prompt prêt à copier) : page [`mcp/`](mcp/).
+
+| Outil WebMCP | Méthode | Rôle |
+|---|---|---|
+| `mockup_describe` | `BinksyAPI.describe()` | Décrit Mockup (Binks Design) et la liste de ses outils (schémas JSON). |
+| `mockup_etat` | `BinksyAPI.getState()` | État courant : photo, profondeur (source ai/quick/custom, en cours), calques logo (matière, position, réglages), matières disponibles, historique. |
+| `mockup_importer` | `BinksyAPI.importer()` | Importe les fichiers de l’utilisateur comme un dépôt : photo (JPG/PNG/WEBP), logos (PNG/SVG/WEBP, centrés), carte de profondeur, ou projet .mockup.json. Sans as : .json = projet, 1re image = photo si aucune, sinon logo. |
+| `mockup_profondeur` | `BinksyAPI.depth()` | Carte de profondeur : attendre la fin du calcul IA, relancer l’IA, ou passer en estimation rapide ; règle aussi lissage (smooth) et intensité (gain), 0 à 1. |
+| `mockup_choisir_matiere` | `BinksyAPI.setMaterial()` | Applique une matière au calque logo : tissu (Tissu), carton (Carton), vitre (Vitre), metal (Métal), papier (Papier), plastique (Plastique), broderie (Broderie), verre (Verre), canette (Canette), ceramique (Céramique), cuir (Cuir), bois (Bois gravé), neon (Néon). |
+| `mockup_regler_calque` | `BinksyAPI.setLayer()` | Règle un calque logo : réglages de matière (0 à 1 ; relief −1 à 1 ; blend 0/1/2 ; recolor + ink #RRGGBB seulement si l’utilisateur le demande), position en pixels de la photo (cx, cy, width, rotation en degrés), forme plan/cyl, visibilité, nom, épouser la surface. |
+| `mockup_calque` | `BinksyAPI.layer()` | Sélectionne ou supprime un calque logo (suppression : confirm: true après accord de l’utilisateur). |
+| `mockup_historique` | `BinksyAPI.history()` | Annule (undo) ou rétablit (redo) la dernière modification. |
+| `mockup_exporter` | `BinksyAPI.exporter()` | Exporte sans téléchargement forcé : rendu pleine résolution png ou jpg, carte de profondeur (depth) ou projet (json). Renvoie { files: [{ name, type, dataBase64 }] }. |
+| `mockup_reset` | `BinksyAPI.reset()` | Efface tout le travail (photo, logos, réglages, sauvegarde automatique) et recharge la page. Demande confirmation à l’utilisateur, puis passe confirm: true. |
+
+```js
+await BinksyAPI.ready();
+const info = await BinksyAPI.describe();
+// photo puis logo FOURNIS par l’utilisateur (base64 ou data: URL)
+await BinksyAPI.importer({ files: [{ name: 'photo-client.jpg', type: 'image/jpeg', dataBase64: PHOTO_B64 }] });
+await BinksyAPI.depth({ action: 'attendre', timeoutMs: 300000 });  // IA locale, ou estimation rapide
+await BinksyAPI.importer({ files: [{ name: 'logo.svg', type: 'image/svg+xml', text: SVG_TEXT }], preset: 'tissu' });
+await BinksyAPI.setLayer({ reglages: { flou: 0, opacity: 0.95 }, position: { cx: 820, cy: 640, width: 420, rotation: -4 } });
+const { files } = await BinksyAPI.exporter({ format: 'png' });   // rendu pleine résolution
+const projet = await BinksyAPI.exporter({ format: 'json' });          // projet .mockup.json
+```
+
 ## Règle fondamentale
 
 Mockup pose sur une photo le logo que l’utilisateur fournit. Ce n’est **pas** un générateur de logos ni de photos.
@@ -44,9 +80,9 @@ python3 -m http.server 8000
 1. **Par l’interface** (recommandé) : champs `<input type="file">` cachés, boutons et curseurs avec des `id` et `data-*` stables (§ 4).
 2. **Lecture de l’état** : l’app expose un objet global interne `window.__mockup` (§ 3). Il n’est pas documenté comme API publique : utilise-le pour **lire** l’état et attendre, pas pour remplacer l’interface.
 
-## Pas d’API publique : ce qui existe
+## Objet interne de débogage
 
-Mockup n’a **pas** d’API JavaScript dédiée aux agents (pas d’équivalent de `window.binksyGuide`). N’en invente pas et n’en ajoute pas.
+L’API publique pour agents est `window.BinksyAPI` (section « API agents » ci-dessus). Pour agir, préfère-la à l’objet interne ci-dessous.
 
 L’app expose toutefois, pour son propre débogage, `window.__mockup`. C’est un objet **interne, sans garantie de stabilité**. Parties utiles en lecture :
 
@@ -180,8 +216,8 @@ Le projet `.mockup.json` est un JSON `{ app: "binks-mockup", version: 2, photo: 
 
 ## État persistant
 
-- **Aucune sauvegarde automatique du travail.** Recharger la page efface photo, logos et réglages. Pour garder un travail : enregistre le projet `.json`.
-- `localStorage` (origine de la page) : `mockup.bif` (`"1"` / `"0"` : options de fusion dépliées ou non) et `mockup.modelOK` (`"1"` : l’utilisateur a accepté sur mobile de télécharger le modèle). Rien d’autre.
+- **Sauvegarde automatique.** Photo, profondeur, logos, matières, réglages et masques sont enregistrés dans IndexedDB (base `binks-mockup`, magasin `kv`, clé `current`) moins d’une seconde après chaque modification, et reviennent au rechargement (toast « Travail restauré »). `?fresh` ouvre une page vide ; la sauvegarde est remplacée dès qu’une nouvelle photo est ouverte. Pour garder plusieurs travaux ou les transmettre : enregistre le projet `.json`.
+- `localStorage` (origine de la page) : `mockup.bif` (`"1"` / `"0"` : options de fusion dépliées ou non) et `mockup.modelOK` (`"1"` : l’utilisateur a accepté sur mobile de télécharger le modèle).
 - Cache Storage : `transformers-cache` (modèles téléchargés par Transformers.js) et `mockup-probe` (test de disponibilité du cache).
 - Utilise un profil de navigateur dédié aux tests si tu ne veux pas laisser ces traces.
 
@@ -233,6 +269,30 @@ It lives in two places that always say the same thing: `AGENTS.md` (Markdown, Fr
 
 Entry points that need no JavaScript: `index.html` and `docs.html` declare `<link rel="alternate" type="text/markdown" href="AGENTS.md">`, `<link rel="help" href="agent/">` and `<link rel="alternate" type="text/plain" href="llms.txt">`, and include an HTML comment and a `<noscript>` pointing here. `robots.txt` allows everything.
 
+## Agent API: `window.BinksyAPI` and WebMCP
+
+Mockup exposes a **public, versioned JavaScript API** (`apiVersion: "1"`) so an agent can drive the app without clicking. Everything stays in the page: no server, no upload, no account, no key. The rules above and below still apply (never invent anything, work on the files provided).
+
+- `window.BinksyAPI` exists as soon as the page loads; `await BinksyAPI.ready()` waits until the saved state (IndexedDB) is restored. Every method is async and returns JSON; errors reject with a readable `{ code, message }`.
+- `BinksyAPI.describe()` returns `{ app, version, apiVersion, description, tools }`: the same table as the WebMCP tools (names, descriptions, JSON schemas).
+- The same tools are registered with **WebMCP** when the browser offers it (`document.modelContext.registerTool`, and the early `navigator.modelContext`): an agent built into the browser sees them with no setup.
+- `importer` takes `{ files: [{ name, type, dataBase64 | text | url (data:) }] }` like a file drop; `exporter` returns `{ files: [{ name, type, dataBase64 }] }` **without** forcing a download (`download: true` to download as well).
+- Every call runs the same logic as the interface, updates the screen and triggers the automatic save.
+- Step-by-step connection (WebMCP, Claude Code / Codex / Hermes / OpenCode through Playwright MCP, ready-to-copy prompt): page [`mcp/`](mcp/).
+
+| WebMCP tool | Method | Role |
+|---|---|---|
+| `mockup_describe` | `BinksyAPI.describe()` | Décrit Mockup (Binks Design) et la liste de ses outils (schémas JSON). |
+| `mockup_etat` | `BinksyAPI.getState()` | État courant : photo, profondeur (source ai/quick/custom, en cours), calques logo (matière, position, réglages), matières disponibles, historique. |
+| `mockup_importer` | `BinksyAPI.importer()` | Importe les fichiers de l’utilisateur comme un dépôt : photo (JPG/PNG/WEBP), logos (PNG/SVG/WEBP, centrés), carte de profondeur, ou projet .mockup.json. Sans as : .json = projet, 1re image = photo si aucune, sinon logo. |
+| `mockup_profondeur` | `BinksyAPI.depth()` | Carte de profondeur : attendre la fin du calcul IA, relancer l’IA, ou passer en estimation rapide ; règle aussi lissage (smooth) et intensité (gain), 0 à 1. |
+| `mockup_choisir_matiere` | `BinksyAPI.setMaterial()` | Applique une matière au calque logo : tissu (Tissu), carton (Carton), vitre (Vitre), metal (Métal), papier (Papier), plastique (Plastique), broderie (Broderie), verre (Verre), canette (Canette), ceramique (Céramique), cuir (Cuir), bois (Bois gravé), neon (Néon). |
+| `mockup_regler_calque` | `BinksyAPI.setLayer()` | Règle un calque logo : réglages de matière (0 à 1 ; relief −1 à 1 ; blend 0/1/2 ; recolor + ink #RRGGBB seulement si l’utilisateur le demande), position en pixels de la photo (cx, cy, width, rotation en degrés), forme plan/cyl, visibilité, nom, épouser la surface. |
+| `mockup_calque` | `BinksyAPI.layer()` | Sélectionne ou supprime un calque logo (suppression : confirm: true après accord de l’utilisateur). |
+| `mockup_historique` | `BinksyAPI.history()` | Annule (undo) ou rétablit (redo) la dernière modification. |
+| `mockup_exporter` | `BinksyAPI.exporter()` | Exporte sans téléchargement forcé : rendu pleine résolution png ou jpg, carte de profondeur (depth) ou projet (json). Renvoie { files: [{ name, type, dataBase64 }] }. |
+| `mockup_reset` | `BinksyAPI.reset()` | Efface tout le travail (photo, logos, réglages, sauvegarde automatique) et recharge la page. Demande confirmation à l’utilisateur, puis passe confirm: true. |
+
 ## Golden rule
 
 Mockup places the logo the user provides onto a photo. It is **not** a logo or photo generator.
@@ -267,9 +327,9 @@ python3 -m http.server 8000
 1. **Through the UI** (recommended): hidden `<input type="file">` fields, buttons and sliders with stable `id` and `data-*` attributes (§ 4).
 2. **Reading state**: the app exposes an internal global object `window.__mockup` (§ 3). It is not documented as a public API: use it to **read** state and to wait, not to replace the UI.
 
-## No public API: what exists
+## Internal debugging object
 
-Mockup has **no** JavaScript API meant for agents (no equivalent of `window.binksyGuide`). Do not invent one and do not add one.
+The public API for agents is `window.BinksyAPI` (“Agent API” section above). To act, prefer it to the internal object below.
 
 For its own debugging, the app does expose `window.__mockup`. It is an **internal object with no stability guarantee**. Useful read-only parts:
 
@@ -403,8 +463,8 @@ The `.mockup.json` project is a JSON `{ app: "binks-mockup", version: 2, photo: 
 
 ## Persistent state
 
-- **No automatic save of the work.** Reloading the page clears photo, logos and settings. To keep work: save the `.json` project.
-- `localStorage` (page origin): `mockup.bif` (`"1"` / `"0"`: blending options unfolded or not) and `mockup.modelOK` (`"1"`: on mobile, the user agreed to download the model). Nothing else.
+- **Automatic save.** Photo, depth, logos, materials, settings and masks are saved in IndexedDB (database `binks-mockup`, store `kv`, key `current`) under a second after each change and come back on reload (toast “Travail restauré”). `?fresh` opens an empty page; the save is replaced as soon as a new photo is opened. To keep several works or share one: save the `.json` project.
+- `localStorage` (page origin): `mockup.bif` (`"1"` / `"0"`: blending options unfolded or not) and `mockup.modelOK` (`"1"`: on mobile, the user agreed to download the model).
 - Cache Storage: `transformers-cache` (models downloaded by Transformers.js) and `mockup-probe` (cache availability test).
 - Use a dedicated test browser profile if you do not want to leave these traces.
 

@@ -18,7 +18,7 @@
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
 <script src="assets/site.js" defer></script>
 </head>
-<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’application est app.html ; elle n’a pas d’API JavaScript publique : pilotage par l’interface (ids stables listés dans AGENTS.md). Aucune clé API. -->
+<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’application est app.html ; elle expose l’API publique window.BinksyAPI (describe, importer, exporter, choisir_matiere…) et les mêmes outils en WebMCP : voir AGENTS.md et mcp/ ; l’interface (ids stables listés dans AGENTS.md) reste pilotable. Aucune clé API. -->
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 <noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="AGENTS.md">AGENTS.md</a> (page HTML : <a href="agent/index.html">agent/</a>). L’application (<a href="app.html">app.html</a>) a besoin de JavaScript et de WebGL2.</p></noscript>
@@ -230,7 +230,7 @@
         <h2><span class="n">13</span><span>Enregistrer et rouvrir un projet</span></h2>
         <p><strong>Enregistrer le projet</strong> (<code>Ctrl</code>/<code>⌘</code> + <code>S</code>) télécharge un fichier <code>.mockup.json</code> qui contient la photo, la carte de profondeur, chaque logo avec sa position, sa déformation, sa matière, ses réglages et son masque.</p>
         <p>Pour le reprendre : <strong>Exporter → Ouvrir un projet</strong>, ou glisse le .json sur la page.</p>
-        <div class="note warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>L’app ne sauvegarde <strong>pas</strong> ton travail toute seule : un rechargement de la page repart de zéro. Enregistre le projet avant de fermer l’onglet.</p></div>
+        <div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Ton travail en cours (photo, profondeur, logos, réglages, masques) est aussi <strong>enregistré automatiquement</strong> dans ce navigateur et revient tel quel au rechargement. Le fichier <code>.mockup.json</code> sert à garder plusieurs travaux, à les transmettre ou à changer d’appareil.</p></div>
       </section>
 
       <section id="mobile">
@@ -274,7 +274,7 @@
         <h3>« IA indisponible · estimation rapide »</h3>
         <p>Le modèle n’a pas pu se charger (pas de connexion, réseau filtré, page ouverte en <code>file://</code> sans cache). L’estimation rapide marche bien sur les surfaces simples ; sinon réessaie avec <strong>Recalculer avec l’IA</strong> une fois en ligne, ou importe une carte.</p>
         <h3>Mon travail a disparu après un rechargement</h3>
-        <p>C’est normal : l’app ne garde pas le projet en mémoire. Enregistre-le en .json (<code>Ctrl</code>/<code>⌘</code> + <code>S</code>) et rouvre-le.</p>
+        <p>Le dernier travail revient tout seul au rechargement (« Travail restauré »), sauf en navigation privée, si l’adresse contient <code>?fresh</code> ou si les données du site ont été effacées. Pour ne rien risquer, enregistre aussi le projet en .json (<code>Ctrl</code>/<code>⌘</code> + <code>S</code>).</p>
         <h3>« Ce fichier n’est pas un projet valide »</h3>
         <p>Seuls les fichiers <code>.mockup.json</code> créés par Mockup s’ouvrent comme projet.</p>
         <h3>« Ce logo n’a pas pu être lu »</h3>
@@ -285,7 +285,7 @@
 
       <section id="agents">
         <h2><span class="n">17</span><span>Agents IA</span></h2>
-        <p>Un agent (Claude Code, Codex…) peut produire le mockup à ta place en pilotant l’interface : l’app n’a pas d’API dédiée, mais ses champs et boutons ont des identifiants stables. Mode d’emploi complet : page <a href="agent/index.html">Agents IA</a> et <a href="AGENTS.md">AGENTS.md</a> (français puis anglais).</p>
+        <p>Un agent (Claude Code, Codex…) peut produire le mockup à ta place avec l’API <code>window.BinksyAPI</code> et les outils WebMCP (page <a href="mcp/">MCP / Agents IA</a>), ou en pilotant l’interface, dont les champs et boutons ont des identifiants stables. Mode d’emploi complet : page <a href="agent/index.html">Agents IA</a> et <a href="AGENTS.md">AGENTS.md</a> (français puis anglais).</p>
       </section>
 
     </article>
@@ -297,6 +297,7 @@
     <ul class="foot-r">
       <li><a href="docs.html">Documentation</a></li>
       <li><a href="agent/index.html">Agents IA</a></li>
+      <li><a href="mcp/">MCP</a></li>
       <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
       <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
     </ul>

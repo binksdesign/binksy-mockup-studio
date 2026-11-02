@@ -40,7 +40,7 @@
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
 <script src="assets/site.js" defer></script>
 </head>
-<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’application est app.html ; elle n’a pas d’API JavaScript publique : pilotage par l’interface (ids stables listés dans AGENTS.md). Aucune clé API. -->
+<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’application est app.html ; elle expose l’API publique window.BinksyAPI (describe, importer, exporter, choisir_matiere…) et les mêmes outils en WebMCP : voir AGENTS.md et mcp/ ; l’interface (ids stables listés dans AGENTS.md) reste pilotable. Aucune clé API. -->
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 <noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="AGENTS.md">AGENTS.md</a> (page HTML : <a href="agent/index.html">agent/</a>). L’application (<a href="app.html">app.html</a>) a besoin de JavaScript et de WebGL2.</p></noscript>
@@ -232,7 +232,7 @@
         <p class="rv">Les visuels de ton client restent chez toi : l’IA, le rendu et l’export tournent dans le navigateur.</p>
       </header>
       <ul class="rules">
-        <li class="rule rv" style="--d:0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><h3>Aucun compte, aucune clé</h3><p>Pas d’inscription, pas d’API payante, pas de traceur. Ton navigateur ne retient que deux préférences d’affichage, rien de ton travail.</p></li>
+        <li class="rule rv" style="--d:0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><h3>Aucun compte, aucune clé</h3><p>Pas d’inscription, pas d’API payante, pas de traceur. Ton travail est enregistré automatiquement dans ton navigateur, nulle part ailleurs.</p></li>
         <li class="rule rv" style="--d:1"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg><h3>IA sur ta machine</h3><p>Les modèles de profondeur et de sélection d’objet sont téléchargés une fois (Hugging Face) puis tournent en local, en WebGPU ou sur le processeur. Ta photo n’est jamais envoyée.</p></li>
         <li class="rule rv" style="--d:2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><h3>Ton projet, ton fichier</h3><p>Rien n’est gardé en ligne ni sauvegardé tout seul : enregistre le projet en .json (Ctrl / ⌘ S) pour le rouvrir plus tard.</p></li>
       </ul>
@@ -245,7 +245,7 @@
       <header class="sec-h">
         <span class="idx"><b>06</b>Agents IA</span>
         <h2 class="h2" id="h-ag"><span class="mask"><span>Pilotable</span></span><span class="mask"><span style="--i:1">par un agent.</span></span></h2>
-        <p class="rv">Claude Code, Codex ou tout agent qui pilote un navigateur peut produire le mockup à ta place, par l’interface : l’app n’a pas d’API dédiée, mais des identifiants stables sur toutes les commandes.</p>
+        <p class="rv">Claude Code, Codex ou tout agent qui pilote un navigateur peut produire le mockup à ta place, avec l’API <code>window.BinksyAPI</code> et les outils WebMCP (page <a href="mcp/">MCP</a>), ou par l’interface et ses identifiants stables.</p>
       </header>
       <div class="agents">
         <div class="agents-tx rv">
@@ -296,6 +296,7 @@ d.value.save_as(<span class="s">'photo-client-mockup.png'</span>)</code></pre>
     <ul class="foot-r">
       <li><a href="docs.html">Documentation</a></li>
       <li><a href="agent/index.html">Agents IA</a></li>
+      <li><a href="mcp/">MCP</a></li>
       <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
       <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
     </ul>

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="fr">
 <head>
+<link rel="help" href="mcp/" title="MCP / Agents IA">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#111111">
@@ -510,7 +511,7 @@ html.mob{--tab-h:calc(60px + var(--sab));--spring:cubic-bezier(.32,.72,0,1);--sa
     <div class="side-h">Calques <button class="icon-btn" id="addLayer" style="width:28px;height:28px" data-tip="Ajouter un logo"><i data-lucide="plus"></i></button></div>
     <div class="layers" id="layers"></div>
   </div>
-  <div class="side-foot"><kbd>C</kbd> maintenir pour comparer<br><kbd>Espace</kbd> glisser pour naviguer<br><kbd>O</kbd> sélectionner un objet</div>
+  <div class="side-foot"><kbd>C</kbd> maintenir pour comparer<br><kbd>Espace</kbd> glisser pour naviguer<br><kbd>O</kbd> sélectionner un objet<br><a href="mcp/" title="Piloter Mockup depuis un agent IA (WebMCP, BinksyAPI)" style="color:inherit">MCP / Agents IA</a></div>
 </aside>
 
 <main class="main">
@@ -1575,6 +1576,7 @@ function setDepthUI(stage, frac) {
     error: 'IA indisponible · estimation rapide', idle: 'En attente de la photo'
   };
   s.textContent = msgs[stage] || '';
+  if (stage === 'ready' && typeof autosaveSoon === 'function') autosaveSoon();
   st.classList.toggle('done', stage === 'ready' || stage === 'error');
   // panel status
   const ps = $('#dStatus'); ps.classList.toggle('ok', stage === 'ready');
@@ -1979,6 +1981,7 @@ function commit() {
   hist.stack = hist.stack.slice(0, hist.idx + 1); hist.stack.push(snap());
   if (hist.stack.length > 60) hist.stack.shift();
   hist.idx = hist.stack.length - 1; updateUndoUI();
+  if (typeof autosaveSoon === 'function') autosaveSoon();
 }
 function restore(s) {
   S.layers = s.layers.map(ls => {
@@ -2100,19 +2103,28 @@ async function exportImage(type) {
 /* ===================== project save / load ===================== */
 function f32ToB64(a) { const u = new Uint16Array(a.length); for (let i = 0; i < a.length; i++) u[i] = clamp(a[i], 0, 1) * 65535; let s = ''; const b = new Uint8Array(u.buffer); for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(s); }
 function b64ToF32(s) { const bin = atob(s), b = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i); const u = new Uint16Array(b.buffer), o = new Float32Array(u.length); for (let i = 0; i < u.length; i++) o[i] = u[i] / 65535; return o; }
-async function saveProject() {
-  const p = {
+function projectData() {
+  return {
     app: 'binks-mockup', version: 2, photo: { src: S.photo.src, name: S.photo.name },
     depth: { source: S.depthSource, w: S.work.w, h: S.work.h, data: f32ToB64(S.depthBase), device: S.device }, depthP: S.depthP,
     layers: S.layers.map(l => ({ name: l.name, src: l.src, corners: l.corners, mesh: l.mesh, P: Object.assign({}, l.P, { inkRGB: undefined }), preset: l.preset, visible: l.visible, autoMask: l.autoMask, autoSens: l.autoSens, mask: l.mask ? l.mask.toDataURL('image/png') : null, shape: l.shape, cyl: l.cyl }))
   };
+}
+async function saveProject() {
+  const p = projectData();
   const blob = new Blob([JSON.stringify(p)], { type: 'application/json' }), fname = (S.photo.name || 'mockup').replace(/\.[a-z0-9]+$/i, '') + '.mockup.json';
   if (TOUCHUI()) deliver(blob, fname, 'Projet enregistré', true); else { download(blob, fname); toast('Projet enregistré'); }
 }
 async function openProject(file) {
   try {
     const p = JSON.parse(await readAs(file, 'text'));
-    if (p.app !== 'binks-mockup') throw new Error('format');
+    await openProjectData(p); toast('Projet ouvert');
+  } catch (e) { console.error(e); toast("Ce fichier n'est pas un projet valide", { ms: 3000 }); }
+}
+// ouvre un projet déjà lu (fichier .mockup.json, sauvegarde automatique, API agents) ; lève une erreur si invalide
+async function openProjectData(p) {
+  {
+    if (!p || p.app !== 'binks-mockup') throw new Error('format');
     depthJob++;
     await loadPhotoNoAI(p.photo.src, p.photo.name);
     S.depthP = p.depthP || S.depthP;
@@ -2122,8 +2134,8 @@ async function openProject(file) {
       const l = await addLogo(L.src, L.name, { corners: L.corners, mesh: L.mesh, P: L.P, preset: PRESETS[L.preset] ? L.preset : 'tissu', visible: L.visible, autoMask: L.autoMask, autoSens: L.autoSens, shape: L.shape, cyl: L.cyl, silent: true });
       if (L.mask) { const img = await loadImage(L.mask); ensureMask(l).getContext('2d').drawImage(img, 0, 0, l.mask.width, l.mask.height); uploadMask(l); l.maskDirty = true; }
     }
-    hist.stack = []; hist.idx = -1; commit(); refreshUI(); requestRender(); toast('Projet ouvert');
-  } catch (e) { console.error(e); toast("Ce fichier n'est pas un projet valide", { ms: 3000 }); }
+    hist.stack = []; hist.idx = -1; commit(); refreshUI(); requestRender();
+  }
 }
 async function loadPhotoNoAI(src, name) { window.__skipAI = true; await loadPhoto(src, name); window.__skipAI = false; }
 
@@ -3204,6 +3216,192 @@ try { const ico = $('#icon512').href, start = location.href.split('#')[0];
   if (/^https?:/.test(location.protocol)) { const l = document.createElement('link'); l.rel = 'manifest'; l.href = 'data:application/manifest+json,' + encodeURIComponent(JSON.stringify(man)); document.head.appendChild(l); } } catch (e) {}
 if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) docEl.classList.add('standalone');
 Object.assign(window.__mockup, { MOB, drawOverlay, selLayer, applyMode, openSheet, closeSheet, toggleSplit, actionSheet, deliver, mobFit, tgState: () => ({ tg: tg && tg.mode, tp: TP.size, drag: drag && drag.t, hover }) });
+
+/* ===================== sauvegarde automatique (IndexedDB) : photo, profondeur, logos, réglages reviennent au rechargement ===================== */
+var AUTO = { ready: false, restoring: false, t: 0, dirty: false };
+function autoDB() { return AUTO.db || (AUTO.db = new Promise((res, rej) => { const q = indexedDB.open('binks-mockup', 1); q.onupgradeneeded = () => q.result.createObjectStore('kv'); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); })); }
+async function autoTx(mode, fn) { const db = await autoDB(); return new Promise((res, rej) => { const t = db.transaction('kv', mode), st = t.objectStore('kv'), q = fn(st); t.oncomplete = () => res(q && q.result); t.onerror = () => rej(t.error); }); }
+function autosaveSoon() { if (!AUTO.ready || AUTO.restoring) return; AUTO.dirty = true; clearTimeout(AUTO.t); AUTO.t = setTimeout(autosaveNow, 700); }
+async function autosaveNow() {
+  clearTimeout(AUTO.t); if (!AUTO.ready || AUTO.restoring) return;
+  try {
+    if (!S.photo || !S.work) { await autoTx('readwrite', st => st.delete('current')); }
+    else await autoTx('readwrite', st => st.put({ ...projectData(), savedAt: Date.now(), sel: S.sel, view: S.view, tab: S.tab }, 'current'));
+    AUTO.dirty = false; window.__autosaved = (window.__autosaved || 0) + 1;
+  } catch (e) { console.warn('Sauvegarde automatique impossible', e); }
+}
+addEventListener('pagehide', () => { if (AUTO.dirty) autosaveNow(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && AUTO.dirty) autosaveNow(); });
+AUTO.boot = (async () => {
+  try {
+    if (glOK && !new URLSearchParams(location.search).has('fresh')) {
+      const rec = await autoTx('readonly', st => st.get('current'));
+      if (rec && rec.photo && !S.photo) {
+        AUTO.restoring = true;
+        try { await openProjectData(rec); if (rec.sel >= -1 && rec.sel < S.layers.length) S.sel = rec.sel; if (rec.tab) S.tab = rec.tab; refreshUI(); requestRender(); toast('Travail restauré'); }
+        catch (e) { console.warn('Restauration impossible', e); }
+        AUTO.restoring = false;
+      }
+    }
+  } catch (e) { console.warn('Sauvegarde automatique indisponible', e); }
+  AUTO.ready = true;
+})();
+
+/* ===================== API agents IA : window.BinksyAPI + outils WebMCP (une seule table de définitions). Tout reste dans la page. ===================== */
+(() => {
+  /* ── Aides de l'API agents (copie locale à cette app, aucune dépendance) ── */
+  const apiFail = (code, message) => Object.assign(new Error(message), { code });
+  const apiB64 = async blob => { const u = new Uint8Array(await blob.arrayBuffer()); let s = ''; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(s); };
+  const apiBytes = f => {
+    if (!f || typeof f !== 'object') throw apiFail('BAD_FILE', 'Chaque fichier doit être un objet { name, type, dataBase64 | text | url }.');
+    if (typeof f.text === 'string') return new TextEncoder().encode(f.text);
+    let b = f.dataBase64;
+    if (!b && typeof f.url === 'string') { const m = /^data:([^,]*?)(;base64)?,(.*)$/s.exec(f.url); if (!m) throw apiFail('BAD_FILE', 'url doit être une URL data: (aucun appel réseau).'); if (!m[2]) return new TextEncoder().encode(decodeURIComponent(m[3])); b = m[3]; }
+    if (!b) throw apiFail('BAD_FILE', `Fichier « ${f.name || '?'} » vide : donne dataBase64, text ou url (data:).`);
+    let bin; try { bin = atob(String(b).replace(/^data:[^,]*,/, '').replace(/\s+/g, '')); } catch (e) { throw apiFail('BAD_FILE', `dataBase64 invalide pour « ${f.name || '?'} ».`); }
+    const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u;
+  };
+  const apiType = f => { if (f.type) return f.type; const m = /^data:([^;,]+)/.exec(f.url || ''); if (m) return m[1]; const e = String(f.name || '').toLowerCase().split('.').pop(); return ({ svg: 'image/svg+xml', png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', json: 'application/json', zip: 'application/zip', binksy: 'application/octet-stream' })[e] || 'application/octet-stream'; };
+  const apiFile = f => new File([apiBytes(f)], f.name || 'fichier', { type: apiType(f) });
+  const apiFiles = args => { const fs = args && args.files; if (!Array.isArray(fs) || !fs.length) throw apiFail('NO_FILES', 'Donne au moins un fichier dans files: [{ name, type, dataBase64 | text | url }].'); return fs.map(apiFile); };
+  const apiOut = async (name, type, blob, download) => { if (download) dl(blob, name); return { name, type, size: blob.size, dataBase64: await apiB64(blob) }; };
+  function apiPublish(appId, appVersion, description, TOOLS, M, ready) {
+    const wrap = fn => async (args = {}) => { await ready; try { return await fn(args || {}); } catch (e) { throw (e && e.code) ? { code: e.code, message: e.message } : { code: 'INTERNAL', message: (e && e.message) || String(e) }; } };
+    M.describe = async () => ({ app: appId, version: appVersion, apiVersion: '1', description, tools: TOOLS.map(({ name, description, inputSchema, outputSchema }) => ({ name, description, inputSchema, ...(outputSchema ? { outputSchema } : {}) })) });
+    const API = { ready: () => ready.then(() => true) };
+    for (const [k, fn] of Object.entries(M)) API[k] = k === 'describe' ? fn : wrap(fn);
+    for (const t of TOOLS) if (!API[t.method]) throw new Error('BinksyAPI : méthode manquante ' + t.method);
+    Object.defineProperty(window, 'BinksyAPI', { value: Object.freeze(API), configurable: false, writable: false, enumerable: true });
+    // WebMCP : document.modelContext (spec actuelle) ou navigator.modelContext (premières versions) ; registerTool ou provideContext. Zéro erreur si absent.
+    try {
+      const mc = (typeof document !== 'undefined' && document.modelContext) || (typeof navigator !== 'undefined' && navigator.modelContext);
+      if (mc) {
+        const defs = TOOLS.map(t => ({ name: t.name, description: t.description, inputSchema: t.inputSchema, ...(t.outputSchema ? { outputSchema: t.outputSchema } : {}), annotations: { readOnlyHint: !!t.readOnly },
+          execute: async args => { try { const r = await API[t.method](args || {}); return { content: [{ type: 'text', text: JSON.stringify(r) }] }; } catch (e) { return { isError: true, content: [{ type: 'text', text: JSON.stringify({ code: e.code || 'ERROR', message: e.message }) }] }; } } }));
+        if (typeof mc.registerTool === 'function') for (const d of defs) { try { const r = mc.registerTool(d); if (r && typeof r.catch === 'function') r.catch(e => console.warn('WebMCP', d.name, e)); } catch (e) { console.warn('WebMCP', d.name, e); } }
+        else if (typeof mc.provideContext === 'function') mc.provideContext({ tools: defs });
+      }
+    } catch (e) { console.warn('WebMCP indisponible', e); }
+    return API;
+  }
+  const dl = download;
+  const ready = AUTO.boot.then(() => undefined);
+  const layerOut = (l, i) => ({ index: i, name: l.name, preset: l.preset, visible: !!l.visible, shape: l.shape, selected: i === S.sel,
+    center: centroid(l.corners).map(v => Math.round(v)), width: Math.round(layerSize(l)), rotation: Math.round(layerAngle(l) * 1800 / Math.PI) / 10,
+    reglages: Object.fromEntries(Object.entries(l.P).filter(([k]) => k in BASE || k === 'recolor' || k === 'ink')) });
+  const needPhoto = () => { if (!S.photo) throw apiFail('NO_PHOTO', 'Importe d’abord une photo (mockup_importer avec as: "photo").'); };
+  const getLayer = (i) => { needPhoto(); const idx = i === undefined || i === null ? S.sel : +i; const l = S.layers[idx]; if (!l) throw apiFail('NO_LAYER', S.layers.length ? `Calque inconnu : ${i}. Index valides : 0 à ${S.layers.length - 1}.` : 'Aucun logo : importe-en un (mockup_importer avec as: "logo").'); return [l, idx]; };
+  const waitDepth = async (ms) => { const t0 = Date.now(); while (S.depthBusy && Date.now() - t0 < ms) await new Promise(r => setTimeout(r, 250)); return !S.depthBusy; };
+  const toDataURL = f => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(f); });
+  const M = {
+    async getState() {
+      return {
+        photo: S.photo ? { name: S.photo.name, width: S.photo.W, height: S.photo.H } : null,
+        profondeur: { source: S.depthSource, enCours: !!S.depthBusy, device: S.device || '', statut: ($('#st2s') || {}).textContent || '', reglages: { ...S.depthP } },
+        calques: S.layers.map(layerOut), selection: S.sel, mode: S.mode, vue: S.view,
+        matieres: Object.fromEntries(Object.entries(PRESETS).map(([k, v]) => [k, v.name])),
+        reglagesPossibles: [...PARAM_DEFS.map(d => d.k), 'opacity', 'blend', 'recolor', 'ink'],
+        historique: { position: hist.idx, total: hist.stack.length }, webgl2: glOK,
+      };
+    },
+    async importer(a) {
+      const files = apiFiles(a); if (!glOK) throw apiFail('NO_WEBGL', 'WebGL2 est requis par ce navigateur.');
+      const out = { photo: null, logos: [], profondeur: null, projet: null };
+      for (const f of files) {
+        const as = a.as || (/\.json$/i.test(f.name) || /json/.test(f.type) ? 'projet' : (!S.photo ? 'photo' : 'logo'));
+        if (as === 'projet') { let p; try { p = JSON.parse(await f.text()); } catch (e) { throw apiFail('BAD_PROJECT', 'Ce fichier n’est pas un projet .mockup.json valide.'); } try { await openProjectData(p); } catch (e) { throw apiFail('BAD_PROJECT', 'Ce fichier n’est pas un projet .mockup.json valide.'); } out.projet = f.name; }
+        else if (as === 'photo') { if (!/^image\/(jpeg|png|webp)/.test(f.type)) throw apiFail('BAD_FILE', 'Photo : JPG, PNG ou WEBP.'); if (a.skipAI) window.__skipAI = true; try { await loadPhoto(await toDataURL(f), f.name); } finally { window.__skipAI = false; } if (a.skipAI) quickDepth(); out.photo = f.name; }
+        else if (as === 'logo') { needPhoto(); const n = S.layers.length; await addLogoFile(f); if (S.layers.length === n) throw apiFail('BAD_LOGO', `Ce logo n’a pas pu être lu : ${f.name}.`); out.logos.push(f.name); }
+        else if (as === 'profondeur') { needPhoto(); await importDepthFile(f); out.profondeur = f.name; }
+        else throw apiFail('BAD_AS', 'as : photo, logo, profondeur ou projet.');
+      }
+      if (a.preset) { getLayer(); await M.setMaterial({ preset: a.preset, layer: S.sel }); }
+      await autosaveNow();
+      return { ...out, etat: await M.getState() };
+    },
+    async depth(a) {
+      needPhoto(); const act = a.action || 'attendre';
+      if (act === 'rapide') { depthJob++; S.depthBusy = false; quickDepth(); }
+      else if (act === 'ia') { runDepthAI(); await new Promise(r => setTimeout(r, 50)); }
+      else if (act !== 'attendre') throw apiFail('BAD_ACTION', 'action : attendre, ia ou rapide.');
+      if (a.smooth !== undefined || a.gain !== undefined) { if (a.smooth !== undefined) S.depthP.smooth = clamp(+a.smooth, 0, 1); if (a.gain !== undefined) S.depthP.gain = clamp(+a.gain, 0, 1); refineDepth(); commit(); refreshUI(); requestRender(); }
+      const done = act === 'attendre' || act === 'ia' ? await waitDepth(Math.max(1000, Math.min(+a.timeoutMs || 120000, 600000))) : true;
+      return { pret: done && S.depthSource !== 'none', source: S.depthSource, enCours: !!S.depthBusy, statut: ($('#st2s') || {}).textContent || '', note: S.depthSource === 'quick' ? 'Estimation rapide (sans IA) : dis-le à l’utilisateur.' : undefined };
+    },
+    async setMaterial(a) {
+      const [l, i] = getLayer(a.layer), nw = PRESETS[a.preset];
+      if (!nw) throw apiFail('BAD_PRESET', 'preset : ' + Object.keys(PRESETS).join(', '));
+      S.sel = i; refreshUI();
+      const chip = document.querySelector(`#chips .chip[data-p="${a.preset}"]`); if (chip) chip.click();
+      else { const old = PRESETS[l.preset] || {}; const keep = { recolor: l.P.recolor, ink: l.P.ink, flou: l.P.flou, bif: l.P.bif, blend: 'blend' in nw.p ? nw.p.blend : (old.p && 'blend' in old.p ? 0 : l.P.blend) }; l.preset = a.preset; l.P = Object.assign({}, BASE, nw.p, keep); commit(); refreshUI(); requestRender(); }
+      return { calque: layerOut(l, i), conseil: nw.cyl && !isCyl(l) ? 'Matière pensée pour la forme Cylindre (mockup_regler_calque shape: "cyl").' : undefined };
+    },
+    async setLayer(a) {
+      const [l, i] = getLayer(a.layer); S.sel = i;
+      if (a.name !== undefined) l.name = String(a.name).trim() || l.name;
+      if (a.visible !== undefined) l.visible = !!a.visible;
+      const R0 = a.reglages || {};
+      for (const [k, v] of Object.entries(R0)) {
+        if (k === 'recolor') l.P.recolor = !!v;
+        else if (k === 'ink') { if (!/^#[0-9a-f]{6}$/i.test(String(v))) throw apiFail('BAD_INK', 'ink : couleur #RRGGBB fournie par l’utilisateur.'); l.P.ink = String(v).toLowerCase(); }
+        else if (k === 'blend') { if (![0, 1, 2].includes(+v)) throw apiFail('BAD_BLEND', 'blend : 0 Normal, 1 Produit, 2 Incrustation.'); l.P.blend = +v; }
+        else if (k in BASE) l.P[k] = clamp(+v, k === 'relief' ? -1 : 0, 1);
+        else throw apiFail('BAD_SETTING', `Réglage inconnu : ${k}. Possibles : ${Object.keys(BASE).join(', ')}, recolor, ink.`);
+      }
+      if (a.shape !== undefined) { if (!['plan', 'cyl'].includes(a.shape)) throw apiFail('BAD_SHAPE', 'shape : plan ou cyl.'); if (a.shape !== l.shape) setShape(l, a.shape, true); }
+      if (a.position && !isCyl(l)) {
+        const c = centroid(l.corners), w0 = layerSize(l), a0 = layerAngle(l), P0 = a.position;
+        const cx = P0.cx ?? c[0], cy = P0.cy ?? c[1], k = P0.width ? Math.max(4, +P0.width) / w0 : 1, rot = P0.rotation !== undefined ? (+P0.rotation) * Math.PI / 180 - a0 : 0;
+        const cs = Math.cos(rot), sn = Math.sin(rot);
+        l.corners = l.corners.map(p => { const x = (p[0] - c[0]) * k, y = (p[1] - c[1]) * k; return [cx + x * cs - y * sn, cy + x * sn + y * cs]; });
+        updatePlane(l);
+      } else if (a.position) throw apiFail('CYL_POSITION', 'Calque en forme Cylindre : place-le avec le cadre dans l’interface (outil Perspective).');
+      if (a.fitSurface) fitToSurface();
+      commit(); refreshUI(); requestRender();
+      return { calque: layerOut(l, i) };
+    },
+    async layer(a) {
+      const [l, i] = getLayer(a.layer), act = a.action || 'select';
+      if (act === 'select') S.sel = i;
+      else if (act === 'delete') { if (a.confirm !== true) throw apiFail('CONFIRM_REQUIRED', 'Supprimer un logo : demande l’accord de l’utilisateur puis passe confirm: true.'); S.layers.splice(i, 1); S.sel = Math.min(S.sel, S.layers.length - 1); commit(); }
+      else throw apiFail('BAD_ACTION', 'action : select ou delete.');
+      void l; refreshUI(); requestRender(); return { calques: S.layers.map(layerOut), selection: S.sel };
+    },
+    async history(a) { needPhoto(); if (a.action === 'redo') redo(); else if (a.action === 'undo') undo(); else throw apiFail('BAD_ACTION', 'action : undo ou redo.'); refreshUI(); requestRender(); return { position: hist.idx, total: hist.stack.length }; },
+    async exporter(a) {
+      needPhoto(); const fmt = String(a.format || 'png').toLowerCase(), base = (S.photo.name || 'mockup').replace(/\.[a-z0-9]+$/i, '');
+      if (fmt === 'png' || fmt === 'jpg' || fmt === 'jpeg') {
+        await new Promise(r => requestAnimationFrame(() => r()));
+        const jpg = fmt !== 'png', c = renderFullCanvas(), blob = await new Promise(r => c.toBlob(r, jpg ? 'image/jpeg' : 'image/png', 0.95));
+        if (!blob) throw apiFail('EXPORT_FAILED', 'L’export a échoué : image trop grande pour ce navigateur.');
+        return { width: c.width, height: c.height, files: [await apiOut(`${base}-mockup.${jpg ? 'jpg' : 'png'}`, jpg ? 'image/jpeg' : 'image/png', blob, !!a.download)] };
+      }
+      if (fmt === 'depth') { const b = await depthPNG(); return { files: [await apiOut(base + '-profondeur.png', 'image/png', b, !!a.download)] }; }
+      if (fmt === 'json' || fmt === 'projet') { const b = new Blob([JSON.stringify(projectData())], { type: 'application/json' }); return { files: [await apiOut(base + '.mockup.json', 'application/json', b, !!a.download)] }; }
+      throw apiFail('BAD_FORMAT', 'format : png, jpg, depth ou json.');
+    },
+    async reset(a) {
+      if (a.confirm !== true) throw apiFail('CONFIRM_REQUIRED', 'Tout effacer (photo, logos, réglages et sauvegarde automatique) : demande l’accord de l’utilisateur, puis passe confirm: true. La page se recharge.');
+      AUTO.ready = false; await autoTx('readwrite', st => st.delete('current')); setTimeout(() => location.reload(), 150);
+      return { ok: true, rechargement: true };
+    },
+  };
+  const FILES = { type: 'array', description: 'Fichiers fournis par l’utilisateur', items: { type: 'object', properties: { name: { type: 'string' }, type: { type: 'string', description: 'type MIME' }, dataBase64: { type: 'string' }, text: { type: 'string', description: 'contenu texte (SVG, JSON)' }, url: { type: 'string', description: 'URL data: uniquement' } }, required: ['name'] } };
+  const LAYER = { type: 'number', description: 'Index du calque logo (voir mockup_etat). Absent = calque sélectionné.' };
+  const TOOLS = [
+    { name: 'mockup_describe', method: 'describe', readOnly: true, description: 'Décrit Mockup (Binks Design) et la liste de ses outils (schémas JSON).', inputSchema: { type: 'object', properties: {} } },
+    { name: 'mockup_etat', method: 'getState', readOnly: true, description: 'État courant : photo, profondeur (source ai/quick/custom, en cours), calques logo (matière, position, réglages), matières disponibles, historique.', inputSchema: { type: 'object', properties: {} } },
+    { name: 'mockup_importer', method: 'importer', description: 'Importe les fichiers de l’utilisateur comme un dépôt : photo (JPG/PNG/WEBP), logos (PNG/SVG/WEBP, centrés), carte de profondeur, ou projet .mockup.json. Sans as : .json = projet, 1re image = photo si aucune, sinon logo.', inputSchema: { type: 'object', properties: { files: FILES, as: { type: 'string', enum: ['photo', 'logo', 'profondeur', 'projet'] }, skipAI: { type: 'boolean', description: 'Photo : estimation rapide sans télécharger le modèle IA' }, preset: { type: 'string', enum: Object.keys(PRESETS), description: 'Matière à appliquer au logo importé' } }, required: ['files'] } },
+    { name: 'mockup_profondeur', method: 'depth', description: 'Carte de profondeur : attendre la fin du calcul IA, relancer l’IA, ou passer en estimation rapide ; règle aussi lissage (smooth) et intensité (gain), 0 à 1.', inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['attendre', 'ia', 'rapide'] }, timeoutMs: { type: 'number' }, smooth: { type: 'number' }, gain: { type: 'number' } } } },
+    { name: 'mockup_choisir_matiere', method: 'setMaterial', description: 'Applique une matière au calque logo : ' + Object.entries(PRESETS).map(([k, v]) => `${k} (${v.name})`).join(', ') + '.', inputSchema: { type: 'object', properties: { layer: LAYER, preset: { type: 'string', enum: Object.keys(PRESETS) } }, required: ['preset'] } },
+    { name: 'mockup_regler_calque', method: 'setLayer', description: 'Règle un calque logo : réglages de matière (0 à 1 ; relief −1 à 1 ; blend 0/1/2 ; recolor + ink #RRGGBB seulement si l’utilisateur le demande), position en pixels de la photo (cx, cy, width, rotation en degrés), forme plan/cyl, visibilité, nom, épouser la surface.', inputSchema: { type: 'object', properties: { layer: LAYER, reglages: { type: 'object', description: 'ex. { "flou": 0, "opacity": 0.95, "blend": 1 }', additionalProperties: true }, position: { type: 'object', properties: { cx: { type: 'number' }, cy: { type: 'number' }, width: { type: 'number' }, rotation: { type: 'number' } } }, shape: { type: 'string', enum: ['plan', 'cyl'] }, visible: { type: 'boolean' }, name: { type: 'string' }, fitSurface: { type: 'boolean' } } } },
+    { name: 'mockup_calque', method: 'layer', description: 'Sélectionne ou supprime un calque logo (suppression : confirm: true après accord de l’utilisateur).', inputSchema: { type: 'object', properties: { layer: LAYER, action: { type: 'string', enum: ['select', 'delete'] }, confirm: { type: 'boolean' } }, required: ['action'] } },
+    { name: 'mockup_historique', method: 'history', description: 'Annule (undo) ou rétablit (redo) la dernière modification.', inputSchema: { type: 'object', properties: { action: { type: 'string', enum: ['undo', 'redo'] } }, required: ['action'] } },
+    { name: 'mockup_exporter', method: 'exporter', description: 'Exporte sans téléchargement forcé : rendu pleine résolution png ou jpg, carte de profondeur (depth) ou projet (json). Renvoie { files: [{ name, type, dataBase64 }] }.', inputSchema: { type: 'object', properties: { format: { type: 'string', enum: ['png', 'jpg', 'depth', 'json'] }, download: { type: 'boolean', description: 'Déclencher aussi le téléchargement' } }, required: ['format'] } },
+    { name: 'mockup_reset', method: 'reset', description: 'Efface tout le travail (photo, logos, réglages, sauvegarde automatique) et recharge la page. Demande confirmation à l’utilisateur, puis passe confirm: true.', inputSchema: { type: 'object', properties: { confirm: { type: 'boolean' } }, required: ['confirm'] } },
+  ];
+  apiPublish('binksy-mockup-studio', '2', 'Mockup (Binks Design) : pose le logo fourni sur une photo avec profondeur calculée dans le navigateur, 13 matières, puis exporte un PNG/JPEG pleine résolution, la carte de profondeur ou le projet. 100 % local.', TOOLS, M, ready);
+})();
 MOB.ready = true; applyMode();
 
 </script>

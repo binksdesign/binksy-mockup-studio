@@ -18,7 +18,7 @@
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
 <script src="../assets/site.js" defer></script>
 </head>
-<!-- Agents IA / AI agents : lisez ../AGENTS.md (Markdown, français puis anglais) ou ../agent/index.html avant d’agir. L’application est ../app.html ; elle n’a pas d’API JavaScript publique : pilotage par l’interface (ids stables listés dans AGENTS.md). Aucune clé API. -->
+<!-- Agents IA / AI agents : lisez ../AGENTS.md (Markdown, français puis anglais) ou ../agent/index.html avant d’agir. L’application est ../app.html ; elle expose l’API publique window.BinksyAPI (describe, importer, exporter, choisir_matiere…) et les mêmes outils en WebMCP : voir AGENTS.md et mcp/ ; l’interface (ids stables listés dans AGENTS.md) reste pilotable. Aucune clé API. -->
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 <noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="../AGENTS.md">AGENTS.md</a> (page HTML : <a href="../agent/index.html">agent/</a>). L’application (<a href="../app.html">app.html</a>) a besoin de JavaScript et de WebGL2.</p></noscript>
@@ -29,6 +29,7 @@
     <a href="../index.html">Accueil</a>
     <a href="../docs.html">Documentation</a>
     <a href="../agent/index.html" aria-current="page">Agents IA</a>
+    <a href="../mcp/">MCP</a>
     <a class="cta" href="../app.html">Ouvrir l’app</a>
   </nav>
 </header>
@@ -38,7 +39,7 @@
     <div class="in-w">
       <p class="kicker"><i aria-hidden="true"></i>Pour Claude Code, Codex et tout agent qui pilote un navigateur</p>
       <h1 class="doc-h1"><span class="mask"><span>Mode d’emploi</span></span><span class="mask"><span style="--i:1">pour <em>agents IA</em></span></span></h1>
-      <p class="lead">Comment piloter Mockup par son interface : importer la photo et le logo fournis, attendre la profondeur, régler, exporter et vérifier. Pas d’API dédiée, pas de clé. Même contenu en Markdown : <a class="lnk" href="../AGENTS.md">AGENTS.md</a>.</p>
+      <p class="lead">Comment piloter Mockup par son interface : importer la photo et le logo fournis, attendre la profondeur, régler, exporter et vérifier. API <code>window.BinksyAPI</code> et outils WebMCP (section API, page <a class="lnk" href="../mcp/">MCP</a>), pas de clé. Même contenu en Markdown : <a class="lnk" href="../AGENTS.md">AGENTS.md</a>.</p>
       <div class="meta lang-switch">
         <a class="tag" href="#fr-intro">Français</a>
         <a class="tag" href="#en-intro" hreflang="en">English</a>
@@ -51,12 +52,94 @@
   <div class="in-w doc-grid">
     <details class="toc" open>
       <summary><span>Sommaire</span><span class="cur"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary>
-      <nav class="toc-body" aria-label="Sommaire"><span class="toc-h" lang="fr">Français</span><ol><li><a href="#fr-regle-fondamentale"><span class="n">01</span><span>Règle fondamentale</span></a></li><li><a href="#fr-demarrer"><span class="n">02</span><span>Démarrer</span></a></li><li><a href="#fr-pas-dapi-publique-ce-qui-existe"><span class="n">03</span><span>Pas d’API publique : ce qui existe</span></a></li><li><a href="#fr-reperes-stables"><span class="n">04</span><span>Repères stables</span></a></li><li><a href="#fr-parcours-pas-a-pas"><span class="n">05</span><span>Parcours pas à pas</span></a></li><li><a href="#fr-exports-et-fichiers"><span class="n">06</span><span>Exports et fichiers</span></a></li><li><a href="#fr-etat-persistant"><span class="n">07</span><span>État persistant</span></a></li><li><a href="#fr-profondeur-et-ia"><span class="n">08</span><span>Profondeur et IA</span></a></li><li><a href="#fr-verifications-avant-de-rendre-le-travail"><span class="n">09</span><span>Vérifications avant de rendre le travail</span></a></li><li><a href="#fr-limites-et-erreurs"><span class="n">10</span><span>Limites et erreurs</span></a></li><li><a href="#fr-logique-a-suivre-pour-chaque-tache"><span class="n">11</span><span>Logique à suivre pour chaque tâche</span></a></li></ol><div style="height:18px"></div><span class="toc-h" lang="en">English</span><ol><li><a href="#en-golden-rule"><span class="n">01</span><span>Golden rule</span></a></li><li><a href="#en-getting-started"><span class="n">02</span><span>Getting started</span></a></li><li><a href="#en-no-public-api-what-exists"><span class="n">03</span><span>No public API: what exists</span></a></li><li><a href="#en-stable-hooks"><span class="n">04</span><span>Stable hooks</span></a></li><li><a href="#en-step-by-step"><span class="n">05</span><span>Step by step</span></a></li><li><a href="#en-exports-and-files"><span class="n">06</span><span>Exports and files</span></a></li><li><a href="#en-persistent-state"><span class="n">07</span><span>Persistent state</span></a></li><li><a href="#en-depth-and-ai"><span class="n">08</span><span>Depth and AI</span></a></li><li><a href="#en-checks-before-handing-back"><span class="n">09</span><span>Checks before handing back</span></a></li><li><a href="#en-limits-and-errors"><span class="n">10</span><span>Limits and errors</span></a></li><li><a href="#en-logic-for-every-task"><span class="n">11</span><span>Logic for every task</span></a></li></ol></nav>
+      <nav class="toc-body" aria-label="Sommaire"><span class="toc-h" lang="fr">Français</span><ol><li><a href="#fr-api-agents"><span class="n">API</span><span>API agents : BinksyAPI et WebMCP</span></a></li><li><a href="#fr-regle-fondamentale"><span class="n">01</span><span>Règle fondamentale</span></a></li><li><a href="#fr-demarrer"><span class="n">02</span><span>Démarrer</span></a></li><li><a href="#fr-pas-dapi-publique-ce-qui-existe"><span class="n">03</span><span>Objet interne de débogage</span></a></li><li><a href="#fr-reperes-stables"><span class="n">04</span><span>Repères stables</span></a></li><li><a href="#fr-parcours-pas-a-pas"><span class="n">05</span><span>Parcours pas à pas</span></a></li><li><a href="#fr-exports-et-fichiers"><span class="n">06</span><span>Exports et fichiers</span></a></li><li><a href="#fr-etat-persistant"><span class="n">07</span><span>État persistant</span></a></li><li><a href="#fr-profondeur-et-ia"><span class="n">08</span><span>Profondeur et IA</span></a></li><li><a href="#fr-verifications-avant-de-rendre-le-travail"><span class="n">09</span><span>Vérifications avant de rendre le travail</span></a></li><li><a href="#fr-limites-et-erreurs"><span class="n">10</span><span>Limites et erreurs</span></a></li><li><a href="#fr-logique-a-suivre-pour-chaque-tache"><span class="n">11</span><span>Logique à suivre pour chaque tâche</span></a></li></ol><div style="height:18px"></div><span class="toc-h" lang="en">English</span><ol><li><a href="#en-agent-api"><span class="n">API</span><span>Agent API: BinksyAPI and WebMCP</span></a></li><li><a href="#en-golden-rule"><span class="n">01</span><span>Golden rule</span></a></li><li><a href="#en-getting-started"><span class="n">02</span><span>Getting started</span></a></li><li><a href="#en-no-public-api-what-exists"><span class="n">03</span><span>Internal debugging object</span></a></li><li><a href="#en-stable-hooks"><span class="n">04</span><span>Stable hooks</span></a></li><li><a href="#en-step-by-step"><span class="n">05</span><span>Step by step</span></a></li><li><a href="#en-exports-and-files"><span class="n">06</span><span>Exports and files</span></a></li><li><a href="#en-persistent-state"><span class="n">07</span><span>Persistent state</span></a></li><li><a href="#en-depth-and-ai"><span class="n">08</span><span>Depth and AI</span></a></li><li><a href="#en-checks-before-handing-back"><span class="n">09</span><span>Checks before handing back</span></a></li><li><a href="#en-limits-and-errors"><span class="n">10</span><span>Limits and errors</span></a></li><li><a href="#en-logic-for-every-task"><span class="n">11</span><span>Logic for every task</span></a></li></ol></nav>
     </details>
     <article class="prose">
 <section id="fr-intro" lang="fr"><p>Ce document s’adresse aux agents IA (Claude Code, Codex, ou tout agent qui pilote un navigateur via Playwright / CDP). Il explique comment utiliser <strong>Mockup</strong> (<code>app.html</code>), le générateur de mockups réalistes de Binks Design : importer une photo, laisser l’app calculer la profondeur, poser un logo, choisir une matière, régler, puis exporter un PNG, un JPEG, la carte de profondeur ou le projet <code>.json</code>.</p>
 <p>Il existe en deux endroits, toujours identiques : <code>AGENTS.md</code> (Markdown, français puis anglais) et la page <code>agent/index.html</code>. Résumé court : <code>llms.txt</code>.</p>
 <p>Points d’entrée découvrables sans JavaScript : <code>index.html</code> et <code>docs.html</code> déclarent <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> et <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, et contiennent un commentaire HTML et un <code>&lt;noscript&gt;</code> qui renvoient ici. <code>robots.txt</code> autorise tout.</p></section>
+<section id="fr-api-agents" lang="fr"><h2><span class="n">API</span><span>API agents : <code>window.BinksyAPI</code> et WebMCP</span></h2>
+<p>Mockup expose une <strong>API JavaScript publique et versionnée</strong> (<code>apiVersion: "1"</code>) pour qu’un agent pilote l’app sans cliquer. Tout reste dans la page : aucun serveur, aucun envoi, aucun compte, aucune clé. Les règles ci-dessus et ci-dessous restent valables (ne rien inventer, travailler sur les fichiers fournis).</p>
+<ul>
+<li><code>window.BinksyAPI</code> existe dès le chargement ; <code>await BinksyAPI.ready()</code> attend que l’état enregistré (IndexedDB) soit restauré. Toutes les méthodes sont async et renvoient du JSON ; une erreur est rejetée avec <code>{ code, message }</code> lisible.</li>
+<li><code>BinksyAPI.describe()</code> renvoie <code>{ app, version, apiVersion, description, tools }</code> : la même table que les outils WebMCP (noms, descriptions, schémas JSON).</li>
+<li>Les mêmes outils sont enregistrés en <strong>WebMCP</strong> quand le navigateur le propose (<code>document.modelContext.registerTool</code>, et <code>navigator.modelContext</code> des premières versions) : un agent intégré au navigateur les voit sans configuration.</li>
+<li><code>importer</code> prend <code>{ files: [{ name, type, dataBase64 | text | url (data:) }] }</code> comme un dépôt de fichiers ; <code>exporter</code> renvoie <code>{ files: [{ name, type, dataBase64 }] }</code> <strong>sans</strong> téléchargement forcé (<code>download: true</code> pour télécharger aussi).</li>
+<li>Chaque appel passe par la même logique que l’interface, met l’écran à jour et déclenche la sauvegarde automatique.</li>
+<li>Connexion pas à pas (WebMCP, Claude Code / Codex / Hermes / OpenCode via Playwright MCP, prompt prêt à copier) : page <a href="../mcp/"><code>mcp/</code></a>.</li>
+</ul>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Outil WebMCP</th>
+<th>Méthode</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mockup_describe</code></td>
+<td><code>BinksyAPI.describe()</code></td>
+<td>Décrit Mockup (Binks Design) et la liste de ses outils (schémas JSON).</td>
+</tr>
+<tr>
+<td><code>mockup_etat</code></td>
+<td><code>BinksyAPI.getState()</code></td>
+<td>État courant : photo, profondeur (source ai/quick/custom, en cours), calques logo (matière, position, réglages), matières disponibles, historique.</td>
+</tr>
+<tr>
+<td><code>mockup_importer</code></td>
+<td><code>BinksyAPI.importer()</code></td>
+<td>Importe les fichiers de l’utilisateur comme un dépôt : photo (JPG/PNG/WEBP), logos (PNG/SVG/WEBP, centrés), carte de profondeur, ou projet .mockup.json. Sans as : .json = projet, 1re image = photo si aucune, sinon logo.</td>
+</tr>
+<tr>
+<td><code>mockup_profondeur</code></td>
+<td><code>BinksyAPI.depth()</code></td>
+<td>Carte de profondeur : attendre la fin du calcul IA, relancer l’IA, ou passer en estimation rapide ; règle aussi lissage (smooth) et intensité (gain), 0 à 1.</td>
+</tr>
+<tr>
+<td><code>mockup_choisir_matiere</code></td>
+<td><code>BinksyAPI.setMaterial()</code></td>
+<td>Applique une matière au calque logo : tissu (Tissu), carton (Carton), vitre (Vitre), metal (Métal), papier (Papier), plastique (Plastique), broderie (Broderie), verre (Verre), canette (Canette), ceramique (Céramique), cuir (Cuir), bois (Bois gravé), neon (Néon).</td>
+</tr>
+<tr>
+<td><code>mockup_regler_calque</code></td>
+<td><code>BinksyAPI.setLayer()</code></td>
+<td>Règle un calque logo : réglages de matière (0 à 1 ; relief −1 à 1 ; blend 0/1/2 ; recolor + ink #RRGGBB seulement si l’utilisateur le demande), position en pixels de la photo (cx, cy, width, rotation en degrés), forme plan/cyl, visibilité, nom, épouser la surface.</td>
+</tr>
+<tr>
+<td><code>mockup_calque</code></td>
+<td><code>BinksyAPI.layer()</code></td>
+<td>Sélectionne ou supprime un calque logo (suppression : confirm: true après accord de l’utilisateur).</td>
+</tr>
+<tr>
+<td><code>mockup_historique</code></td>
+<td><code>BinksyAPI.history()</code></td>
+<td>Annule (undo) ou rétablit (redo) la dernière modification.</td>
+</tr>
+<tr>
+<td><code>mockup_exporter</code></td>
+<td><code>BinksyAPI.exporter()</code></td>
+<td>Exporte sans téléchargement forcé : rendu pleine résolution png ou jpg, carte de profondeur (depth) ou projet (json). Renvoie { files: [{ name, type, dataBase64 }] }.</td>
+</tr>
+<tr>
+<td><code>mockup_reset</code></td>
+<td><code>BinksyAPI.reset()</code></td>
+<td>Efface tout le travail (photo, logos, réglages, sauvegarde automatique) et recharge la page. Demande confirmation à l’utilisateur, puis passe confirm: true.</td>
+</tr>
+</tbody>
+</table></div>
+<pre><code class="language-js">await BinksyAPI.ready();
+const info = await BinksyAPI.describe();
+// photo puis logo FOURNIS par l’utilisateur (base64 ou data: URL)
+await BinksyAPI.importer({ files: [{ name: 'photo-client.jpg', type: 'image/jpeg', dataBase64: PHOTO_B64 }] });
+await BinksyAPI.depth({ action: 'attendre', timeoutMs: 300000 });  // IA locale, ou estimation rapide
+await BinksyAPI.importer({ files: [{ name: 'logo.svg', type: 'image/svg+xml', text: SVG_TEXT }], preset: 'tissu' });
+await BinksyAPI.setLayer({ reglages: { flou: 0, opacity: 0.95 }, position: { cx: 820, cy: 640, width: 420, rotation: -4 } });
+const { files } = await BinksyAPI.exporter({ format: 'png' });   // rendu pleine résolution
+const projet = await BinksyAPI.exporter({ format: 'json' });          // projet .mockup.json
+</code></pre>
+</section>
 <section id="fr-regle-fondamentale" lang="fr"><h2><span class="n">01</span><span>Règle fondamentale</span></h2>
 <p>Mockup pose sur une photo le logo que l’utilisateur fournit. Ce n’est <strong>pas</strong> un générateur de logos ni de photos.</p>
 <ul>
@@ -85,8 +168,8 @@
 <li><strong>Par l’interface</strong> (recommandé) : champs <code>&lt;input type="file"&gt;</code> cachés, boutons et curseurs avec des <code>id</code> et <code>data-*</code> stables (§ 4).</li>
 <li><strong>Lecture de l’état</strong> : l’app expose un objet global interne <code>window.__mockup</code> (§ 3). Il n’est pas documenté comme API publique : utilise-le pour <strong>lire</strong> l’état et attendre, pas pour remplacer l’interface.</li>
 </ol></section>
-<section id="fr-pas-dapi-publique-ce-qui-existe" lang="fr"><h2><span class="n">03</span><span>Pas d’API publique : ce qui existe</span></h2>
-<p>Mockup n’a <strong>pas</strong> d’API JavaScript dédiée aux agents (pas d’équivalent de <code>window.binksyGuide</code>). N’en invente pas et n’en ajoute pas.</p>
+<section id="fr-pas-dapi-publique-ce-qui-existe" lang="fr"><h2><span class="n">03</span><span>Objet interne de débogage</span></h2>
+<p>L’API publique pour agents est <code>window.BinksyAPI</code> (section « API agents » ci-dessus). Pour agir, préfère-la à l’objet interne ci-dessous.</p>
 <p>L’app expose toutefois, pour son propre débogage, <code>window.__mockup</code>. C’est un objet <strong>interne, sans garantie de stabilité</strong>. Parties utiles en lecture :</p>
 <pre><code class="language-js">__mockup.S.photo            // null, ou { W, H, name, src } : photo chargée (W×H = pleine résolution)
 __mockup.S.depthSource      // 'none' | 'ai' | 'quick' | 'custom'
@@ -323,8 +406,8 @@ set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // opacité 95 %
 <p>Le projet <code>.mockup.json</code> est un JSON <code>{ app: "binks-mockup", version: 2, photo: { src, name }, depth: { source, w, h, data, device }, depthP, layers: [...] }</code> : la photo et les logos y sont intégrés (data URL ou texte SVG), avec pour chaque calque position, maillage, matière, réglages, forme et masque. Ouvre-le avec <code>page.set_input_files("#fProj", "fichier.mockup.json")</code> ou en le déposant sur la page ; toast « Projet ouvert ».</p></section>
 <section id="fr-etat-persistant" lang="fr"><h2><span class="n">07</span><span>État persistant</span></h2>
 <ul>
-<li><strong>Aucune sauvegarde automatique du travail.</strong> Recharger la page efface photo, logos et réglages. Pour garder un travail : enregistre le projet <code>.json</code>.</li>
-<li><code>localStorage</code> (origine de la page) : <code>mockup.bif</code> (<code>"1"</code> / <code>"0"</code> : options de fusion dépliées ou non) et <code>mockup.modelOK</code> (<code>"1"</code> : l’utilisateur a accepté sur mobile de télécharger le modèle). Rien d’autre.</li>
+<li><strong>Sauvegarde automatique.</strong> Photo, profondeur, logos, matières, réglages et masques sont enregistrés dans IndexedDB (base <code>binks-mockup</code>, magasin <code>kv</code>, clé <code>current</code>) moins d’une seconde après chaque modification, et reviennent au rechargement (toast « Travail restauré »). <code>?fresh</code> ouvre une page vide ; la sauvegarde est remplacée dès qu’une nouvelle photo est ouverte. Pour garder plusieurs travaux ou les transmettre : enregistre le projet <code>.json</code>.</li>
+<li><code>localStorage</code> (origine de la page) : <code>mockup.bif</code> (<code>"1"</code> / <code>"0"</code> : options de fusion dépliées ou non) et <code>mockup.modelOK</code> (<code>"1"</code> : l’utilisateur a accepté sur mobile de télécharger le modèle).</li>
 <li>Cache Storage : <code>transformers-cache</code> (modèles téléchargés par Transformers.js) et <code>mockup-probe</code> (test de disponibilité du cache).</li>
 <li>Utilise un profil de navigateur dédié aux tests si tu ne veux pas laisser ces traces.</li>
 </ul></section>
@@ -397,6 +480,78 @@ set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // opacité 95 %
 <section id="en-intro" lang="en"><p>This document is for AI agents (Claude Code, Codex, or any agent driving a browser through Playwright / CDP). It explains how to use <strong>Mockup</strong> (<code>app.html</code>), Binks Design’s realistic mockup generator: import a photo, let the app compute depth, place a logo, pick a material, adjust, then export a PNG, a JPEG, the depth map or the <code>.json</code> project.</p>
 <p>It lives in two places that always say the same thing: <code>AGENTS.md</code> (Markdown, French then English) and the <code>agent/index.html</code> page. Short summary: <code>llms.txt</code>.</p>
 <p>Entry points that need no JavaScript: <code>index.html</code> and <code>docs.html</code> declare <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> and <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, and include an HTML comment and a <code>&lt;noscript&gt;</code> pointing here. <code>robots.txt</code> allows everything.</p></section>
+<section id="en-agent-api" lang="en"><h2><span class="n">API</span><span>Agent API: <code>window.BinksyAPI</code> and WebMCP</span></h2>
+<p>Mockup exposes a <strong>public, versioned JavaScript API</strong> (<code>apiVersion: "1"</code>) so an agent can drive the app without clicking. Everything stays in the page: no server, no upload, no account, no key. The rules above and below still apply (never invent anything, work on the files provided).</p>
+<ul>
+<li><code>window.BinksyAPI</code> exists as soon as the page loads; <code>await BinksyAPI.ready()</code> waits until the saved state (IndexedDB) is restored. Every method is async and returns JSON; errors reject with a readable <code>{ code, message }</code>.</li>
+<li><code>BinksyAPI.describe()</code> returns <code>{ app, version, apiVersion, description, tools }</code>: the same table as the WebMCP tools (names, descriptions, JSON schemas).</li>
+<li>The same tools are registered with <strong>WebMCP</strong> when the browser offers it (<code>document.modelContext.registerTool</code>, and the early <code>navigator.modelContext</code>): an agent built into the browser sees them with no setup.</li>
+<li><code>importer</code> takes <code>{ files: [{ name, type, dataBase64 | text | url (data:) }] }</code> like a file drop; <code>exporter</code> returns <code>{ files: [{ name, type, dataBase64 }] }</code> <strong>without</strong> forcing a download (<code>download: true</code> to download as well).</li>
+<li>Every call runs the same logic as the interface, updates the screen and triggers the automatic save.</li>
+<li>Step-by-step connection (WebMCP, Claude Code / Codex / Hermes / OpenCode through Playwright MCP, ready-to-copy prompt): page <a href="../mcp/"><code>mcp/</code></a>.</li>
+</ul>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>WebMCP tool</th>
+<th>Method</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mockup_describe</code></td>
+<td><code>BinksyAPI.describe()</code></td>
+<td>Décrit Mockup (Binks Design) et la liste de ses outils (schémas JSON).</td>
+</tr>
+<tr>
+<td><code>mockup_etat</code></td>
+<td><code>BinksyAPI.getState()</code></td>
+<td>État courant : photo, profondeur (source ai/quick/custom, en cours), calques logo (matière, position, réglages), matières disponibles, historique.</td>
+</tr>
+<tr>
+<td><code>mockup_importer</code></td>
+<td><code>BinksyAPI.importer()</code></td>
+<td>Importe les fichiers de l’utilisateur comme un dépôt : photo (JPG/PNG/WEBP), logos (PNG/SVG/WEBP, centrés), carte de profondeur, ou projet .mockup.json. Sans as : .json = projet, 1re image = photo si aucune, sinon logo.</td>
+</tr>
+<tr>
+<td><code>mockup_profondeur</code></td>
+<td><code>BinksyAPI.depth()</code></td>
+<td>Carte de profondeur : attendre la fin du calcul IA, relancer l’IA, ou passer en estimation rapide ; règle aussi lissage (smooth) et intensité (gain), 0 à 1.</td>
+</tr>
+<tr>
+<td><code>mockup_choisir_matiere</code></td>
+<td><code>BinksyAPI.setMaterial()</code></td>
+<td>Applique une matière au calque logo : tissu (Tissu), carton (Carton), vitre (Vitre), metal (Métal), papier (Papier), plastique (Plastique), broderie (Broderie), verre (Verre), canette (Canette), ceramique (Céramique), cuir (Cuir), bois (Bois gravé), neon (Néon).</td>
+</tr>
+<tr>
+<td><code>mockup_regler_calque</code></td>
+<td><code>BinksyAPI.setLayer()</code></td>
+<td>Règle un calque logo : réglages de matière (0 à 1 ; relief −1 à 1 ; blend 0/1/2 ; recolor + ink #RRGGBB seulement si l’utilisateur le demande), position en pixels de la photo (cx, cy, width, rotation en degrés), forme plan/cyl, visibilité, nom, épouser la surface.</td>
+</tr>
+<tr>
+<td><code>mockup_calque</code></td>
+<td><code>BinksyAPI.layer()</code></td>
+<td>Sélectionne ou supprime un calque logo (suppression : confirm: true après accord de l’utilisateur).</td>
+</tr>
+<tr>
+<td><code>mockup_historique</code></td>
+<td><code>BinksyAPI.history()</code></td>
+<td>Annule (undo) ou rétablit (redo) la dernière modification.</td>
+</tr>
+<tr>
+<td><code>mockup_exporter</code></td>
+<td><code>BinksyAPI.exporter()</code></td>
+<td>Exporte sans téléchargement forcé : rendu pleine résolution png ou jpg, carte de profondeur (depth) ou projet (json). Renvoie { files: [{ name, type, dataBase64 }] }.</td>
+</tr>
+<tr>
+<td><code>mockup_reset</code></td>
+<td><code>BinksyAPI.reset()</code></td>
+<td>Efface tout le travail (photo, logos, réglages, sauvegarde automatique) et recharge la page. Demande confirmation à l’utilisateur, puis passe confirm: true.</td>
+</tr>
+</tbody>
+</table></div>
+</section>
 <section id="en-golden-rule" lang="en"><h2><span class="n">01</span><span>Golden rule</span></h2>
 <p>Mockup places the logo the user provides onto a photo. It is <strong>not</strong> a logo or photo generator.</p>
 <ul>
@@ -425,8 +580,8 @@ set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // opacité 95 %
 <li><strong>Through the UI</strong> (recommended): hidden <code>&lt;input type="file"&gt;</code> fields, buttons and sliders with stable <code>id</code> and <code>data-*</code> attributes (§ 4).</li>
 <li><strong>Reading state</strong>: the app exposes an internal global object <code>window.__mockup</code> (§ 3). It is not documented as a public API: use it to <strong>read</strong> state and to wait, not to replace the UI.</li>
 </ol></section>
-<section id="en-no-public-api-what-exists" lang="en"><h2><span class="n">03</span><span>No public API: what exists</span></h2>
-<p>Mockup has <strong>no</strong> JavaScript API meant for agents (no equivalent of <code>window.binksyGuide</code>). Do not invent one and do not add one.</p>
+<section id="en-no-public-api-what-exists" lang="en"><h2><span class="n">03</span><span>Internal debugging object</span></h2>
+<p>The public API for agents is <code>window.BinksyAPI</code> (“Agent API” section above). To act, prefer it to the internal object below.</p>
 <p>For its own debugging, the app does expose <code>window.__mockup</code>. It is an <strong>internal object with no stability guarantee</strong>. Useful read-only parts:</p>
 <pre><code class="language-js">__mockup.S.photo            // null, or { W, H, name, src }: loaded photo (W×H = full resolution)
 __mockup.S.depthSource      // 'none' | 'ai' | 'quick' | 'custom'
@@ -663,8 +818,8 @@ set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // 95 % opacity
 <p>The <code>.mockup.json</code> project is a JSON <code>{ app: "binks-mockup", version: 2, photo: { src, name }, depth: { source, w, h, data, device }, depthP, layers: [...] }</code>: photo and logos are embedded (data URL or SVG text), with each layer’s position, mesh, material, settings, shape and mask. Open it with <code>page.set_input_files("#fProj", "file.mockup.json")</code> or by dropping it on the page; toast “Projet ouvert”.</p></section>
 <section id="en-persistent-state" lang="en"><h2><span class="n">07</span><span>Persistent state</span></h2>
 <ul>
-<li><strong>No automatic save of the work.</strong> Reloading the page clears photo, logos and settings. To keep work: save the <code>.json</code> project.</li>
-<li><code>localStorage</code> (page origin): <code>mockup.bif</code> (<code>"1"</code> / <code>"0"</code>: blending options unfolded or not) and <code>mockup.modelOK</code> (<code>"1"</code>: on mobile, the user agreed to download the model). Nothing else.</li>
+<li><strong>Automatic save.</strong> Photo, depth, logos, materials, settings and masks are saved in IndexedDB (database <code>binks-mockup</code>, store <code>kv</code>, key <code>current</code>) under a second after each change and come back on reload (toast “Travail restauré”). <code>?fresh</code> opens an empty page; the save is replaced as soon as a new photo is opened. To keep several works or share one: save the <code>.json</code> project.</li>
+<li><code>localStorage</code> (page origin): <code>mockup.bif</code> (<code>"1"</code> / <code>"0"</code>: blending options unfolded or not) and <code>mockup.modelOK</code> (<code>"1"</code>: on mobile, the user agreed to download the model).</li>
 <li>Cache Storage: <code>transformers-cache</code> (models downloaded by Transformers.js) and <code>mockup-probe</code> (cache availability test).</li>
 <li>Use a dedicated test browser profile if you do not want to leave these traces.</li>
 </ul></section>
@@ -743,6 +898,7 @@ set('#opSlider .sl[data-k=&quot;opacity&quot;] input', 950);    // 95 % opacity
     <ul class="foot-r">
       <li><a href="../docs.html">Documentation</a></li>
       <li><a href="../agent/index.html">Agents IA</a></li>
+      <li><a href="../mcp/">MCP</a></li>
       <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
       <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
     </ul>
